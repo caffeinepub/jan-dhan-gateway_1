@@ -2,8 +2,8 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-make-the-generated-csv-file-accessible-as-a-downloadable-static-asset-at-frontend-public-assets-jan-dhan-registry-2000-csv-so-users-can-download-the-dataset-directly-from-the-application",
-      "featureTitle": "Make the generated CSV file accessible as a downloadable static asset at frontend/public/assets/jan_dhan_registry_2000.csv so users can download the dataset directly from the application.",
+      "featureId": "feature-regenerate-the-csv-dataset-file-at-frontend-public-assets-jan-dhan-registry-2000-csv-with-approximately-500-records-instead-of-2000-maintaining-the-existing-schema-with-columns-citizen-id-12-digit-text-income-tier-scheme-eligibility-scheme-amount-number-last-claim-date-dd-mm-yyyy-format-region-code-account-status-active-inactive-aadhaar-linked-true-false-claim-count-number-preserve-data-variety-including-different-income-tiers-multiple-scheme-types-pension-health-education-various-region-codes-mix-of-active-inactive-accounts-true-false-aadhaar-linkage-status-and-claim-counts-ranging-from-0-to-5",
+      "featureTitle": "Regenerate the CSV dataset file at frontend/public/assets/jan_dhan_registry_2000.csv with approximately 500 records instead of 2000, maintaining the existing schema with columns: Citizen_ID (12-digit text), Income_Tier, Scheme_Eligibility, Scheme_Amount (number), Last_Claim_Date (DD-MM-YYYY format), Region_Code, Account_Status (Active/Inactive), Aadhaar_Linked (TRUE/FALSE), Claim_Count (number). Preserve data variety including different income tiers, multiple scheme types (Pension, Health, Education), various region codes, mix of Active/Inactive accounts, TRUE/FALSE Aadhaar linkage status, and claim counts ranging from 0 to 5.",
       "files": [],
       "components": [
         "core-infrastructure@1.0.2",
@@ -13,7 +13,7 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-12"
+        "REQ-14"
       ],
       "confidence": "high"
     }

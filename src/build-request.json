@@ -1,76 +1,38 @@
 {
   "kind": "build_request",
-  "title": "Generate CSV dataset with 2000 synthetic records and link it to the project",
+  "title": "Reduce CSV dataset from 2000 to 500 records",
   "projectName": "Jan-Dhan Gateway",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-11",
-      "text": "Generate a CSV file containing 2000 synthetic records matching the jan_dhan_registry_advanced schema with columns: Citizen_ID (12-digit text), Income_Tier, Scheme_Eligibility, Scheme_Amount (number), Last_Claim_Date (DD-MM-YYYY format), Region_Code, Account_Status (Active/Inactive), Aadhaar_Linked (TRUE/FALSE), Claim_Count (number). Ensure data variety includes different income tiers, multiple scheme types (Pension, Health, Education), various region codes, mix of Active/Inactive accounts, TRUE/FALSE Aadhaar linkage status, and claim counts ranging from 0 to 5.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-5"
-        ],
-        "quotes": [
-          "yes generate csv file and link it if you not did"
-        ]
-      },
-      "acceptanceCriteria": [
-        "CSV file contains exactly 2000 records",
-        "All Citizen_IDs are unique 12-digit numbers",
-        "Date format follows DD-MM-YYYY pattern",
-        "Scheme_Amount values match realistic benefit amounts (e.g., 2000 for Pension, 5000 for Health)",
-        "Mix of Account_Status includes both Active and Inactive entries",
-        "Region_Code follows state-district format (e.g., MP-11, GJ-06, RJ-06)"
-      ]
-    },
-    {
-      "id": "REQ-12",
-      "text": "Make the generated CSV file accessible as a downloadable static asset at frontend/public/assets/jan_dhan_registry_2000.csv so users can download the dataset directly from the application.",
+      "id": "REQ-14",
+      "text": "Regenerate the CSV dataset file at frontend/public/assets/jan_dhan_registry_2000.csv with approximately 500 records instead of 2000, maintaining the existing schema with columns: Citizen_ID (12-digit text), Income_Tier, Scheme_Eligibility, Scheme_Amount (number), Last_Claim_Date (DD-MM-YYYY format), Region_Code, Account_Status (Active/Inactive), Aadhaar_Linked (TRUE/FALSE), Claim_Count (number). Preserve data variety including different income tiers, multiple scheme types (Pension, Health, Education), various region codes, mix of Active/Inactive accounts, TRUE/FALSE Aadhaar linkage status, and claim counts ranging from 0 to 5.",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-5"
         ],
         "quotes": [
-          "generate csv file and link it"
+          "give the data you use in csv file give approx of 500 data"
         ]
       },
       "acceptanceCriteria": [
-        "CSV file is placed in frontend/public/assets/ directory",
-        "File is accessible via direct URL path",
-        "File name clearly indicates it contains 2000 registry records"
-      ]
-    },
-    {
-      "id": "REQ-13",
-      "text": "Add a visible download link or button in the application UI (either in the admin dashboard or a dedicated section) that allows users to download the jan_dhan_registry_2000.csv dataset file.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-5"
-        ],
-        "quotes": [
-          "link it"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Download link/button is clearly visible and labeled",
-        "Clicking the link initiates CSV file download",
-        "Link includes file size information if possible"
+        "CSV file contains approximately 500 records (acceptable range: 480-520 records)",
+        "All existing schema columns are preserved with correct data types",
+        "Data variety is maintained across all categorical fields",
+        "File remains downloadable from the same location in the application"
       ]
     }
   ],
   "constraints": [
-    "CSV file must match the exact schema format provided: Citizen_ID, Income_Tier, Scheme_Eligibility, Scheme_Amount, Last_Claim_Date, Region_Code, Account_Status, Aadhaar_Linked, Claim_Count",
-    "Date format must be DD-MM-YYYY to match existing sample data format",
-    "All Citizen_IDs must be unique 12-digit numbers"
+    "Do not change the CSV file location or name (frontend/public/assets/jan_dhan_registry_2000.csv)",
+    "Do not modify the existing schema structure or column names",
+    "Maintain the same data generation patterns as the original 2000-record dataset"
   ],
   "nonGoals": [
-    "Implementing CSV import functionality into the backend (already planned separately)",
-    "Creating a CSV upload interface for users",
-    "Generating more than 2000 records"
+    "Modifying the backend data model or import logic",
+    "Changing the UI components that reference or display the CSV data",
+    "Altering validation rules or processing logic that uses the dataset"
   ],
   "imageRequirements": {
     "required": [],

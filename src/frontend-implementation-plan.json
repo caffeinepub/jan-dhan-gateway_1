@@ -1,37 +1,22 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Add CSV Dataset Download Feature to Jan-Dhan Gateway",
+  "title": "Reduce CSV dataset from 2000 to 500 records",
   "requirements": [
     {
-      "id": "REQ-12",
-      "summary": "Place the generated CSV file as a static asset in the frontend public directory",
+      "id": "REQ-14",
+      "summary": "Regenerate the CSV dataset file with approximately 500 records instead of 2000, maintaining the existing schema and data variety",
       "acceptanceCriteria": [
-        "CSV file is placed in frontend/public/assets/ directory",
-        "File is accessible via direct URL path",
-        "File name clearly indicates it contains 2000 registry records"
+        "CSV file contains approximately 500 records (acceptable range: 480-520 records)",
+        "All existing schema columns are preserved with correct data types",
+        "Data variety is maintained across all categorical fields",
+        "File remains downloadable from the same location in the application"
       ],
       "file_operations": [
         {
           "path": "frontend/public/assets/jan_dhan_registry_2000.csv",
-          "operation": "create",
-          "description": "Create CSV file containing 2000 synthetic records with schema: Citizen_ID (12-digit unique text), Income_Tier, Scheme_Eligibility, Scheme_Amount (number), Last_Claim_Date (DD-MM-YYYY), Region_Code, Account_Status (Active/Inactive), Aadhaar_Linked (TRUE/FALSE), Claim_Count (0-5). Include data variety with different income tiers, multiple scheme types (Pension, Health, Education), various region codes (e.g., MP-11, GJ-06, RJ-06), mix of Active/Inactive accounts, TRUE/FALSE Aadhaar linkage status, and claim counts ranging from 0 to 5. Ensure realistic Scheme_Amount values (e.g., 2000 for Pension, 5000 for Health)."
-        }
-      ]
-    },
-    {
-      "id": "REQ-13",
-      "summary": "Add download link for the CSV dataset in the admin dashboard",
-      "acceptanceCriteria": [
-        "Download link/button is clearly visible and labeled",
-        "Clicking the link initiates CSV file download",
-        "Link includes file size information if possible"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/AdminDashboard.tsx",
           "operation": "modify",
-          "description": "Add a download section in the admin dashboard that includes a clearly labeled button or link to download the jan_dhan_registry_2000.csv file from /assets/jan_dhan_registry_2000.csv. Display the file size (approximately indicating 2000 records) and use appropriate styling consistent with the existing admin dashboard design. Position the download section logically within the existing dashboard layout, potentially near the system status or as a dedicated data export section."
+          "description": "Regenerate the CSV dataset file with approximately 500 records instead of 2000. Maintain the existing schema with columns: Citizen_ID (12-digit text), Income_Tier, Scheme_Eligibility, Scheme_Amount (number), Last_Claim_Date (DD-MM-YYYY format), Region_Code, Account_Status (Active/Inactive), Aadhaar_Linked (TRUE/FALSE), Claim_Count (number). Preserve data variety including different income tiers (Low, Middle, High), multiple scheme types (Pension, Health, Education), various region codes, mix of Active/Inactive accounts, TRUE/FALSE Aadhaar linkage status, and claim counts ranging from 0 to 5. Generate realistic 12-digit Citizen_IDs, randomize dates in DD-MM-YYYY format, and ensure scheme amounts align with scheme types. The file must remain at the same location and name to maintain compatibility with existing application components that reference or import this dataset."
         }
       ]
     }

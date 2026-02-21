@@ -1,12 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Generate a CSV dataset with 2000 synthetic records matching the jan_dhan_registry_advanced schema and make it downloadable from the application.
+**Goal:** Reduce the CSV dataset from 2000 to approximately 500 records while maintaining the existing schema and data variety.
 
 **Planned changes:**
-- Generate a CSV file with 2000 synthetic records containing columns: Citizen_ID (12-digit), Income_Tier, Scheme_Eligibility, Scheme_Amount, Last_Claim_Date (DD-MM-YYYY), Region_Code, Account_Status, Aadhaar_Linked, and Claim_Count
-- Include data variety with different income tiers, multiple scheme types (Pension, Health, Education), various region codes, Active/Inactive accounts, TRUE/FALSE Aadhaar linkage, and claim counts from 0 to 5
-- Place the generated CSV file in frontend/public/assets/ directory as jan_dhan_registry_2000.csv
-- Add a visible download link or button in the application UI to allow users to download the dataset
+- Regenerate the jan_dhan_registry_2000.csv file with approximately 500 records instead of 2000
+- Preserve all existing columns: Citizen_ID, Income_Tier, Scheme_Eligibility, Scheme_Amount, Last_Claim_Date, Region_Code, Account_Status, Aadhaar_Linked, Claim_Count
+- Maintain data variety across all categorical fields (income tiers, scheme types, region codes, account statuses, Aadhaar linkage, claim counts)
 
-**User-visible outcome:** Users can download a CSV file containing 2000 synthetic Jan Dhan registry records directly from the application interface.
+**User-visible outcome:** Users will work with a smaller, more manageable dataset of approximately 500 records while retaining the same data structure and variety for testing and demonstration purposes.

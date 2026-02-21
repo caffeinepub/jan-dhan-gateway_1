@@ -1,25 +1,18 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-21T02:43:12.146Z",
+  "generatedAt": "2026-02-21T02:48:11.976Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
+    "total": 1,
     "implemented": 1,
     "items": [
       {
-        "id": "REQ-11",
-        "summary": "Generate a CSV file containing 2000 synthetic records matching the jan_dhan_registry_advanced schema with columns: Citizen_ID (12-digit text), Income_Tier, Scheme_Eligibility, Scheme_Amount (number), Last_Claim_Date (DD-MM-YYYY format), Region_Code, Account_Status (Active/Inactive), Aadhaar_Linked (TRUE/FALSE), Claim_Count (number). Ensure data variety includes different income tiers, multiple scheme types (Pension, Health, Education), various region codes, mix of Active/Inactive accounts, TRUE/FALSE Aadhaar linkage status, and claim counts ranging from 0 to 5.",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-12",
-        "summary": "Make the generated CSV file accessible as a downloadable static asset at frontend/public/assets/jan_dhan_registry_2000.csv so users can download the dataset directly from the application.",
+        "id": "REQ-14",
+        "summary": "Regenerate the CSV dataset file at frontend/public/assets/jan_dhan_registry_2000.csv with approximately 500 records instead of 2000, maintaining the existing schema with columns: Citizen_ID (12-digit text), Income_Tier, Scheme_Eligibility, Scheme_Amount (number), Last_Claim_Date (DD-MM-YYYY format), Region_Code, Account_Status (Active/Inactive), Aadhaar_Linked (TRUE/FALSE), Claim_Count (number). Preserve data variety including different income tiers, multiple scheme types (Pension, Health, Education), various region codes, mix of Active/Inactive accounts, TRUE/FALSE Aadhaar linkage status, and claim counts ranging from 0 to 5.",
         "status": "implemented",
         "plannedFiles": [
           "frontend/public/assets/jan_dhan_registry_2000.csv"
@@ -27,22 +20,13 @@
         "matchedFiles": [
           "frontend/public/assets/jan_dhan_registry_2000.csv"
         ]
-      },
-      {
-        "id": "REQ-13",
-        "summary": "Add a visible download link or button in the application UI (either in the admin dashboard or a dedicated section) that allows users to download the jan_dhan_registry_2000.csv dataset file.",
-        "status": "missing",
-        "plannedFiles": [
-          "frontend/src/components/AdminDashboard.tsx"
-        ],
-        "matchedFiles": []
       }
     ]
   },
   "changedFiles": [
     "build-request.json",
-    "build-template/README.md",
     "feature_evidence.json",
+    "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
     "frontend/public/assets/jan_dhan_registry_2000.csv",
     "project_state.json",

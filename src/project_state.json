@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 5,
+  "projectStateVersion": 7,
   "summary": "Jan-Dhan Gateway - Fraud-proof benefit distribution system with sequential validation engine, hash-linked ledger, three-key verification protocol (eligibility, budget, frequency gates), ID-hash validator using SHA-256, immutable transaction ledger, admin kill-switch panel, and CSV dataset integration (2000 records)",
   "architectural_notes": [
     "Use SHA-256 hashing for Citizen_ID storage and validation",
@@ -44,6 +44,14 @@
       "title": "Make the generated CSV file accessible as a downloadable static asset at frontend/public/assets/jan_dhan_registry_2000.csv so users can download the dataset directly from the application.",
       "reqIds": [
         "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-regenerate-the-csv-dataset-file-at-frontend-public-assets-jan-dhan-registry-2000-csv-with-approximately-500-records-instead-of-2000-maintaining-the-existing-schema-with-columns-citizen-id-12-digit-text-income-tier-scheme-eligibility-scheme-amount-number-last-claim-date-dd-mm-yyyy-format-region-code-account-status-active-inactive-aadhaar-linked-true-false-claim-count-number-preserve-data-variety-including-different-income-tiers-multiple-scheme-types-pension-health-education-various-region-codes-mix-of-active-inactive-accounts-true-false-aadhaar-linkage-status-and-claim-counts-ranging-from-0-to-5",
+      "title": "Regenerate the CSV dataset file at frontend/public/assets/jan_dhan_registry_2000.csv with approximately 500 records instead of 2000, maintaining the existing schema with columns: Citizen_ID (12-digit text), Income_Tier, Scheme_Eligibility, Scheme_Amount (number), Last_Claim_Date (DD-MM-YYYY format), Region_Code, Account_Status (Active/Inactive), Aadhaar_Linked (TRUE/FALSE), Claim_Count (number). Preserve data variety including different income tiers, multiple scheme types (Pension, Health, Education), various region codes, mix of Active/Inactive accounts, TRUE/FALSE Aadhaar linkage status, and claim counts ranging from 0 to 5.",
+      "reqIds": [
+        "REQ-14"
       ],
       "version": 1
     }
@@ -161,6 +169,12 @@
       "reqIds": [
         "REQ-13"
       ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-18",
+      "summary": "Reduce CSV dataset from 2000 records to approximately 500 records while maintaining data variety",
+      "reqIds": [],
       "status": "pending"
     }
   ],

@@ -1,0 +1,10 @@
+{
+  "frontend/src/App.tsx": "Main application component with tab-based navigation between transaction processing and admin dashboard views.",
+  "frontend/src/components/Layout.tsx": "Application layout wrapper with header featuring Jan-Dhan Gateway branding, security indicators, and footer with attribution.",
+  "frontend/src/components/AdminDashboard.tsx": "Admin control panel displaying system status, emergency pause controls, budget monitoring, transaction counts, and active security features.",
+  "frontend/src/components/TransactionForm.tsx": "Transaction submission form with Citizen ID input, scheme selection, real-time three-gate validation display, and approval/rejection results.",
+  "frontend/src/components/TransactionHistory.tsx": "Transaction history viewer displaying recent benefit claims with status, timestamps, and rejection reasons in a scrollable list.",
+  "frontend/src/index.css": "Global styles with OKLCH-based color system featuring trust-focused blue palette for security emphasis in both light and dark modes.",
+  "frontend/tailwind.config.js": "Tailwind configuration with custom fonts (Inter, JetBrains Mono), security-themed colors, custom shadows, and animations for the Jan-Dhan Gateway design system.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for system status and transaction history (placeholder implementations awaiting backend completion)."
+}

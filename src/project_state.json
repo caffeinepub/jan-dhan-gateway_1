@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Jan-Dhan Gateway - Fraud-proof benefit distribution system with sequential validation engine, hash-linked ledger, three-key verification protocol (eligibility, budget, frequency gates), ID-hash validator using SHA-256, immutable transaction ledger, admin kill-switch panel, and CSV dataset integration (2000 records)",
+  "architectural_notes": [
+    "Use SHA-256 hashing for Citizen_ID storage and validation",
+    "Hash-linked ledger structure: each transaction links to previous hash forming immutable chain",
+    "Three-gate validation: eligibility → budget → frequency (sequential)",
+    "System auto-locks on: ledger tampering, budget exhaustion, hash mismatch, admin pause",
+    "Initial budget: ₹10,00,000 INR with real-time deduction tracking",
+    "30-day frequency limit per Citizen_ID enforced via Last_Claim_Date comparison",
+    "Claim_Count max: 3 (manual review/reject above limit)",
+    "CSV schema: Citizen_ID (12-digit), Income_Tier, Scheme_Eligibility, Scheme_Amount, Last_Claim_Date, Region_Code, Account_Status, Aadhaar_Linked, Claim_Count"
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-create-admin-kill-switch-dashboard-displaying-system-status-indicator-active-paused-frozen-emergency-pause-button-budget-remaining-display-and-transaction-count-monitor-emergency-pause-must-immediately-block-all-new-transactions",
+      "title": "Create admin kill-switch dashboard displaying: System Status Indicator (Active/Paused/Frozen), Emergency Pause Button, Budget Remaining Display, and Transaction Count Monitor. Emergency pause must immediately block all new transactions.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-transaction-processing-interface-where-users-can-submit-benefit-claims-by-entering-citizen-id-and-selecting-scheme-display-validation-results-for-all-three-gates-show-approval-rejection-status-with-detailed-reason-and-update-transaction-history-in-real-time",
+      "title": "Build transaction processing interface where users can submit benefit claims by entering Citizen_ID and selecting scheme. Display validation results for all three gates, show approval/rejection status with detailed reason, and update transaction history in real-time.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-beautiful-professional-frontend-ui-for-both-transaction-processing-and-admin-dashboard-using-modern-design-patterns-interface-must-be-intuitive-responsive-and-clearly-communicate-system-security-features",
+      "title": "Create beautiful, professional frontend UI for both transaction processing and admin dashboard using modern design patterns. Interface must be intuitive, responsive, and clearly communicate system security features.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "ID-Hash Validator with SHA-256 for Citizen_ID deduplication and replay protection",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Immutable hash-linked ledger with timestamp, hash chain, and tamper detection",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Three-key verification: eligibility gate (status, Aadhaar, scheme), budget gate (₹10L), frequency gate (30-day block)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Admin kill-switch panel with system status, pause button, budget display, transaction monitor",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "CSV dataset integration with 2000 records matching jan_dhan_registry_advanced schema",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Beautiful frontend UI for transaction processing and admin dashboard",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Create backend data model for Jan-Dhan Registry with fields: Citizen_ID (12-digit text), Income_Tier, Scheme_Eligibility, Scheme_Amount (number), Last_Claim_Date (timestamp), Region_Code, Account_Status (Active/Inactive), Aadhaar_Linked (boolean), Claim_Count (number). Support CSV import of approximately 2000 records.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Implement ID-Hash Validator that converts every 12-digit Citizen_ID into SHA-256 hash for processing. Store and compare hashes to detect duplicate claims and block replay attempts immediately.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Build immutable hash-linked ledger that records each approved transaction with: Timestamp, Citizen_ID_Hash, Scheme, Amount, Previous_Line_Hash, Current_Line_Hash. Current_Hash must equal SHA256(Timestamp + CitizenHash + Scheme + Amount + PreviousHash). After every transaction, compute full file integrity hash and freeze system on mismatch.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Implement Gate 1: Eligibility Gate validation that checks Citizen_ID exists in registry, Account_Status equals Active, Aadhaar_Linked equals TRUE, Scheme_Eligibility matches requested scheme, Scheme_Amount matches fixed scheme mapping, and Claim_Count is 3 or less (reject or flag for manual review if exceeded).",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Implement Gate 2: Budget Gate with initial budget of ₹10,00,000 INR. Deduct amount only after approval, reject transaction if insufficient balance, and auto-lock system when budget reaches zero.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Implement Gate 3: Frequency Gate that blocks claims within 30 days of Last_Claim_Date. Reject transaction immediately if violation occurs.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Implement automatic system lock mechanism that freezes all new transactions when: ledger tampering is detected, budget is exhausted, hash chain mismatch occurs, or admin manually pauses the system. Blocked transactions must show clear rejection reason.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Jan-Dhan Gateway",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

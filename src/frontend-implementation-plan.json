@@ -1,0 +1,100 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Jan-Dhan Gateway Frontend Implementation Plan",
+  "requirements": [
+    {
+      "id": "REQ-8",
+      "summary": "Create admin kill-switch dashboard with system status, emergency pause, budget display, and transaction monitoring",
+      "acceptanceCriteria": [
+        "Dashboard shows real-time system status",
+        "Emergency pause button immediately updates system state",
+        "Budget remaining displays current balance in INR",
+        "Transaction count shows total processed transactions",
+        "All controls are functional and update backend state"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/AdminDashboard.tsx",
+          "operation": "create",
+          "description": "Create admin dashboard component displaying system status indicator (Active/Paused/Frozen), emergency pause button, budget remaining in INR, and transaction count monitor. Include real-time polling for status updates and emergency pause functionality that calls backend methods to freeze the system."
+        },
+        {
+          "path": "frontend/src/hooks/useSystemStatus.ts",
+          "operation": "create",
+          "description": "Create custom hook to fetch and manage system status, budget remaining, and transaction count from backend. Implement polling mechanism for real-time updates and expose methods to trigger emergency pause."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire AdminDashboard component into the app router. Add navigation link or route to access the admin dashboard view."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Build transaction processing interface for benefit claims with three-gate validation display and real-time history",
+      "acceptanceCriteria": [
+        "User can input Citizen_ID and select scheme from available options",
+        "Interface displays results from eligibility, budget, and frequency gates",
+        "Approval or rejection is clearly shown with specific reason",
+        "Transaction history updates immediately after processing"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/TransactionForm.tsx",
+          "operation": "create",
+          "description": "Create transaction submission form component with Citizen_ID text input (12-digit validation), scheme dropdown selector, and submit button. Display validation results for all three gates (eligibility, budget, frequency) showing pass/fail status for each. Show clear approval or rejection message with detailed reason after submission."
+        },
+        {
+          "path": "frontend/src/components/TransactionHistory.tsx",
+          "operation": "create",
+          "description": "Create transaction history component displaying list of processed transactions with timestamp, Citizen_ID, scheme, amount, and status. Implement real-time updates after each new transaction is processed."
+        },
+        {
+          "path": "frontend/src/hooks/useTransactionProcessing.tsx",
+          "operation": "create",
+          "description": "Create custom hook to handle transaction submission logic, calling backend methods to process benefit claims. Manage loading states, validation gate results, approval/rejection responses, and error handling. Returns JSX for rendering validation gate results."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire TransactionForm and TransactionHistory components into the main app view. Ensure both components are visible and functional on the primary user interface."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Create beautiful, professional UI with modern design patterns emphasizing security features",
+      "acceptanceCriteria": [
+        "UI uses cohesive color scheme and typography",
+        "Layout is clean and professional",
+        "Security features are visually emphasized",
+        "Interface is responsive across screen sizes",
+        "User actions provide clear visual feedback"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Define cohesive color scheme, professional typography, and custom CSS variables for the Jan-Dhan Gateway application. Establish primary, secondary, and accent colors that emphasize security and trust. Add utility classes for consistent spacing and visual feedback states."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Configure Tailwind theme with custom colors for security emphasis (e.g., trust blue, alert red, success green), professional font families, responsive breakpoints, and shadow/border utilities for clean layout. Extend theme to support security badge styling and status indicators."
+        },
+        {
+          "path": "frontend/src/components/Layout.tsx",
+          "operation": "create",
+          "description": "Create main layout component with responsive navigation, header featuring Jan-Dhan Gateway branding, and container structure for clean, professional presentation. Include visual indicators for security features and system status in the header. Use shadcn/ui components for consistent styling. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wrap application content with Layout component to apply consistent branding and structure across all views. Ensure responsive behavior and professional presentation."
+        }
+      ]
+    }
+  ]
+}

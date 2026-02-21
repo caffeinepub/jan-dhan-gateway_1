@@ -1,0 +1,124 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-21T02:33:10.431Z",
+  "summary": "The diff implements a complete frontend UI with admin dashboard, transaction processing forms, and transaction history components. However, the backend implementation is minimal (only stub types and empty functions). Critical security features like SHA-256 hashing, hash-linked ledger, three-gate validation logic, CSV import, and system lock mechanisms are entirely missing from the backend.",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "Backend data model must store all 9 fields (Citizen_ID, Income_Tier, Scheme_Eligibility, Scheme_Amount, Last_Claim_Date, Region_Code, Account_Status, Aadhaar_Linked, Claim_Count) and support CSV import endpoint",
+      "reason": "Backend defines minimal types but no actual storage implementation, no CSV import endpoint, and EligibilityRecord only has 8 fields (missing Citizen_ID field in the record itself)",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "requirement": "ID-Hash Validator must hash every Citizen_ID using SHA-256, maintain hash registry, and block replay attempts",
+      "reason": "No SHA-256 hashing implementation found. Backend has CitizenIdHash type defined as Blob but no hashing logic, no hash registry for duplicate detection",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Immutable hash-linked ledger with 6 fields (Timestamp, Citizen_ID_Hash, Scheme, Amount, Previous_Line_Hash, Current_Line_Hash), hash chain validation, and tamper detection that freezes system",
+      "reason": "No ledger data structure defined, no hash chain implementation, no integrity verification logic, no tamper detection mechanism",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Gate 1 (Eligibility Gate) must validate 6 conditions: Citizen_ID exists, Account_Status=Active, Aadhaar_Linked=TRUE, Scheme_Eligibility matches, Scheme_Amount matches, Claim_Count≤3",
+      "reason": "No eligibility validation logic implemented. Backend only has stub functions with no gate validation",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Gate 2 (Budget Gate) must start at ₹10,00,000, deduct only after approval, reject on insufficient balance, auto-lock at zero",
+      "reason": "Backend initializes balance to 1_000_000 but balance variable is immutable (let instead of var), no deduction logic, no budget validation, no auto-lock mechanism",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Gate 3 (Frequency Gate) must block claims within 30 days of Last_Claim_Date and update date only after successful transaction",
+      "reason": "No frequency gate logic, no date comparison, no 30-day blocking implementation",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "Automatic system lock mechanism for 4 conditions: ledger tampering, budget exhaustion, hash chain mismatch, admin manual pause. Must block transactions and provide rejection reason",
+      "reason": "systemActive is initialized but never updated, no lock mechanism, no condition monitoring, no rejection reason handling",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "Admin dashboard backend endpoints must provide system status, support emergency pause toggle, return budget remaining, and transaction count",
+      "reason": "Frontend dashboard exists but no backend endpoints implemented to support status retrieval, pause functionality, or real-time updates",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useQueries.ts"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "requirement": "Transaction processing backend must accept Citizen_ID and scheme, execute all three gate validations, return detailed results with rejection reasons, and update transaction history",
+      "reason": "requestMoney function is empty stub, no validation execution, no result generation, no transaction history storage",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Frontend implements mock validation gate simulation with hardcoded pass/fail results",
+      "reason": "TransactionForm shows simulated three-gate validation with predetermined outcomes (pass, pass, fail) that are not connected to any backend logic",
+      "evidence": [
+        "frontend/src/components/TransactionForm.tsx"
+      ]
+    },
+    {
+      "description": "Frontend displays mock transaction history with hardcoded sample data",
+      "reason": "TransactionHistory component shows 3 predefined transactions with specific Citizen_IDs, amounts, and rejection reasons that don't come from backend",
+      "evidence": [
+        "frontend/src/components/TransactionHistory.tsx"
+      ]
+    },
+    {
+      "description": "isCelebrated function in backend with no corresponding requirement",
+      "reason": "Backend contains unused function isCelebrated that always returns true with no specification in requirements",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    }
+  ],
+  "confidence": 0.95,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/AdminDashboard.tsx",
+    "frontend/src/components/Layout.tsx",
+    "frontend/src/components/TransactionForm.tsx",
+    "frontend/src/components/TransactionHistory.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

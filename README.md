@@ -1,2 +1,3 @@
-# jan-dhan-gateway_1
-Exported from Caffeine project: Jan-Dhan Gateway
+## Jan-Dhan Gateway
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

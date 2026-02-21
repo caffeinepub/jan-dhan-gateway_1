@@ -2,12 +2,9 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-create-admin-kill-switch-dashboard-displaying-system-status-indicator-active-paused-frozen-emergency-pause-button-budget-remaining-display-and-transaction-count-monitor-emergency-pause-must-immediately-block-all-new-transactions",
-      "featureTitle": "Create admin kill-switch dashboard displaying: System Status Indicator (Active/Paused/Frozen), Emergency Pause Button, Budget Remaining Display, and Transaction Count Monitor. Emergency pause must immediately block all new transactions.",
-      "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/AdminDashboard.tsx"
-      ],
+      "featureId": "feature-make-the-generated-csv-file-accessible-as-a-downloadable-static-asset-at-frontend-public-assets-jan-dhan-registry-2000-csv-so-users-can-download-the-dataset-directly-from-the-application",
+      "featureTitle": "Make the generated CSV file accessible as a downloadable static asset at frontend/public/assets/jan_dhan_registry_2000.csv so users can download the dataset directly from the application.",
+      "files": [],
       "components": [
         "core-infrastructure@1.0.2",
         "shadcn-ui@1.0.0",
@@ -16,48 +13,7 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-8"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-build-transaction-processing-interface-where-users-can-submit-benefit-claims-by-entering-citizen-id-and-selecting-scheme-display-validation-results-for-all-three-gates-show-approval-rejection-status-with-detailed-reason-and-update-transaction-history-in-real-time",
-      "featureTitle": "Build transaction processing interface where users can submit benefit claims by entering Citizen_ID and selecting scheme. Display validation results for all three gates, show approval/rejection status with detailed reason, and update transaction history in real-time.",
-      "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/TransactionForm.tsx",
-        "frontend/src/components/TransactionHistory.tsx"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-9"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-create-beautiful-professional-frontend-ui-for-both-transaction-processing-and-admin-dashboard-using-modern-design-patterns-interface-must-be-intuitive-responsive-and-clearly-communicate-system-security-features",
-      "featureTitle": "Create beautiful, professional frontend UI for both transaction processing and admin dashboard using modern design patterns. Interface must be intuitive, responsive, and clearly communicate system security features.",
-      "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/Layout.tsx",
-        "frontend/src/index.css",
-        "frontend/tailwind.config.js"
-      ],
-      "components": [
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-10"
+        "REQ-12"
       ],
       "confidence": "high"
     }

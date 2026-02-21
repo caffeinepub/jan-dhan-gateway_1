@@ -1,18 +1,12 @@
 # Specification
 
 ## Summary
-**Goal:** Build a fraud-proof benefit distribution system with hash-based identity validation, immutable ledger, three-gate verification protocol, and admin controls to prevent duplicate claims and ensure budget integrity.
+**Goal:** Generate a CSV dataset with 2000 synthetic records matching the jan_dhan_registry_advanced schema and make it downloadable from the application.
 
 **Planned changes:**
-- Create backend data model for Jan-Dhan Registry with 9 fields (Citizen_ID, Income_Tier, Scheme_Eligibility, Scheme_Amount, Last_Claim_Date, Region_Code, Account_Status, Aadhaar_Linked, Claim_Count) and CSV import for ~2000 records
-- Implement SHA-256 hash-based ID validator to detect duplicate claims and block replay attempts
-- Build immutable hash-linked ledger recording all transactions with chain verification and tampering detection
-- Implement Gate 1 (Eligibility): validate citizen exists, account active, Aadhaar linked, scheme match, and claim count ≤3
-- Implement Gate 2 (Budget): enforce ₹10,00,000 INR budget with deduction on approval, rejection on insufficient balance, auto-lock at zero
-- Implement Gate 3 (Frequency): block claims within 30 days of last claim date
-- Create automatic system lock mechanism for tampering detection, budget exhaustion, hash mismatch, or manual pause
-- Build admin kill-switch dashboard showing system status, emergency pause button, budget remaining, and transaction count
-- Create transaction processing interface for submitting claims with Citizen_ID and scheme selection, displaying three-gate validation results and approval/rejection status
-- Design beautiful, professional, responsive UI emphasizing security features for both transaction processing and admin dashboard
+- Generate a CSV file with 2000 synthetic records containing columns: Citizen_ID (12-digit), Income_Tier, Scheme_Eligibility, Scheme_Amount, Last_Claim_Date (DD-MM-YYYY), Region_Code, Account_Status, Aadhaar_Linked, and Claim_Count
+- Include data variety with different income tiers, multiple scheme types (Pension, Health, Education), various region codes, Active/Inactive accounts, TRUE/FALSE Aadhaar linkage, and claim counts from 0 to 5
+- Place the generated CSV file in frontend/public/assets/ directory as jan_dhan_registry_2000.csv
+- Add a visible download link or button in the application UI to allow users to download the dataset
 
-**User-visible outcome:** Users can submit benefit claims through an intuitive interface that validates eligibility, budget, and frequency in real-time. Admins can monitor system health, view remaining budget, track transactions, and emergency-pause the system. All transactions are cryptographically secured in an immutable ledger with automatic fraud detection and system lockdown.
+**User-visible outcome:** Users can download a CSV file containing 2000 synthetic Jan Dhan registry records directly from the application interface.

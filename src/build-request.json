@@ -1,235 +1,76 @@
 {
   "kind": "build_request",
-  "title": "Build Jan-Dhan Gateway Fraud-Proof Benefit Distribution System",
+  "title": "Generate CSV dataset with 2000 synthetic records and link it to the project",
   "projectName": "Jan-Dhan Gateway",
-  "priority": "high",
+  "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-1",
-      "text": "Create backend data model for Jan-Dhan Registry with fields: Citizen_ID (12-digit text), Income_Tier, Scheme_Eligibility, Scheme_Amount (number), Last_Claim_Date (timestamp), Region_Code, Account_Status (Active/Inactive), Aadhaar_Linked (boolean), Claim_Count (number). Support CSV import of approximately 2000 records.",
+      "id": "REQ-11",
+      "text": "Generate a CSV file containing 2000 synthetic records matching the jan_dhan_registry_advanced schema with columns: Citizen_ID (12-digit text), Income_Tier, Scheme_Eligibility, Scheme_Amount (number), Last_Claim_Date (DD-MM-YYYY format), Region_Code, Account_Status (Active/Inactive), Aadhaar_Linked (TRUE/FALSE), Claim_Count (number). Ensure data variety includes different income tiers, multiple scheme types (Pension, Health, Education), various region codes, mix of Active/Inactive accounts, TRUE/FALSE Aadhaar linkage status, and claim counts ranging from 0 to 5.",
       "target": "backend",
       "source": {
         "messageIds": [
-          "msg-2"
+          "msg-5"
         ],
         "quotes": [
-          "Citizen_ID\tIncome_Tier\tScheme_Eligibility\tScheme_Amount\tLast_Claim_Date\tRegion_Code\tAccount_Status\tAadhaar_Linked\tClaim_Count"
+          "yes generate csv file and link it if you not did"
         ]
       },
       "acceptanceCriteria": [
-        "Backend stores all 9 fields from the registry schema",
-        "CSV import endpoint accepts and parses registry data",
-        "Citizen_ID is stored as text and preserved exactly as provided"
+        "CSV file contains exactly 2000 records",
+        "All Citizen_IDs are unique 12-digit numbers",
+        "Date format follows DD-MM-YYYY pattern",
+        "Scheme_Amount values match realistic benefit amounts (e.g., 2000 for Pension, 5000 for Health)",
+        "Mix of Account_Status includes both Active and Inactive entries",
+        "Region_Code follows state-district format (e.g., MP-11, GJ-06, RJ-06)"
       ]
     },
     {
-      "id": "REQ-2",
-      "text": "Implement ID-Hash Validator that converts every 12-digit Citizen_ID into SHA-256 hash for processing. Store and compare hashes to detect duplicate claims and block replay attempts immediately.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "Convert every 12-digit Citizen_ID into a secure SHA-256 hash",
-          "Detects duplicate claims via hash collision",
-          "Block replay attempts immediately"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Every transaction hashes the Citizen_ID using SHA-256",
-        "System maintains hash registry to prevent duplicate claims",
-        "Replay attempts are rejected before processing"
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "text": "Build immutable hash-linked ledger that records each approved transaction with: Timestamp, Citizen_ID_Hash, Scheme, Amount, Previous_Line_Hash, Current_Line_Hash. Current_Hash must equal SHA256(Timestamp + CitizenHash + Scheme + Amount + PreviousHash). After every transaction, compute full file integrity hash and freeze system on mismatch.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "Each approved transaction must be appended to a text ledger",
-          "Current_Hash = SHA256(Timestamp + CitizenHash + Scheme + Amount + PreviousHash)",
-          "Detect tampering",
-          "Freeze system on mismatch"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Ledger stores all six required fields for each transaction",
-        "Each entry's Current_Hash correctly chains to Previous_Line_Hash",
-        "System computes and verifies full ledger integrity after each write",
-        "Tampering detection triggers automatic system freeze"
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "text": "Implement Gate 1: Eligibility Gate validation that checks Citizen_ID exists in registry, Account_Status equals Active, Aadhaar_Linked equals TRUE, Scheme_Eligibility matches requested scheme, Scheme_Amount matches fixed scheme mapping, and Claim_Count is 3 or less (reject or flag for manual review if exceeded).",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "Citizen_ID exists",
-          "Account_Status == Active",
-          "Aadhaar_Linked == TRUE",
-          "Scheme_Eligibility matches requested scheme",
-          "Claim_Count ≤ 3 (else manual review or reject)"
-        ]
-      },
-      "acceptanceCriteria": [
-        "All six eligibility conditions are validated before proceeding",
-        "Transaction is rejected if any condition fails",
-        "Claim_Count exceeding 3 triggers rejection or manual review flag"
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "text": "Implement Gate 2: Budget Gate with initial budget of ₹10,00,000 INR. Deduct amount only after approval, reject transaction if insufficient balance, and auto-lock system when budget reaches zero.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "Initial Budget: ₹10,00,000 INR",
-          "Deduct only after approval",
-          "Reject if insufficient balance",
-          "Auto-lock when budget reaches zero"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Budget starts at exactly ₹10,00,000",
-        "Budget is only deducted after transaction approval",
-        "Transactions are rejected when budget is insufficient",
-        "System automatically locks when budget reaches zero"
-      ]
-    },
-    {
-      "id": "REQ-6",
-      "text": "Implement Gate 3: Frequency Gate that blocks claims within 30 days of Last_Claim_Date. Reject transaction immediately if violation occurs.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "No claims within 30 days of Last_Claim_Date",
-          "Reject if violation occurs"
-        ]
-      },
-      "acceptanceCriteria": [
-        "System calculates date difference between current date and Last_Claim_Date",
-        "Transactions are rejected if less than 30 days have passed",
-        "Last_Claim_Date is updated only after successful transaction"
-      ]
-    },
-    {
-      "id": "REQ-7",
-      "text": "Implement automatic system lock mechanism that freezes all new transactions when: ledger tampering is detected, budget is exhausted, hash chain mismatch occurs, or admin manually pauses the system. Blocked transactions must show clear rejection reason.",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "Ledger tampering detected",
-          "Budget exhausted",
-          "Hash chain mismatch",
-          "Admin manually pauses system",
-          "block all new transactions"
-        ]
-      },
-      "acceptanceCriteria": [
-        "System maintains active/paused/frozen status state",
-        "All four lock conditions are monitored and trigger freeze",
-        "New transactions are blocked when system is not active",
-        "Lock reason is captured and returned to user"
-      ]
-    },
-    {
-      "id": "REQ-8",
-      "text": "Create admin kill-switch dashboard displaying: System Status Indicator (Active/Paused/Frozen), Emergency Pause Button, Budget Remaining Display, and Transaction Count Monitor. Emergency pause must immediately block all new transactions.",
+      "id": "REQ-12",
+      "text": "Make the generated CSV file accessible as a downloadable static asset at frontend/public/assets/jan_dhan_registry_2000.csv so users can download the dataset directly from the application.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-2"
+          "msg-5"
         ],
         "quotes": [
-          "System Status Indicator (Active / Paused / Frozen)",
-          "Emergency Pause Button",
-          "Budget Remaining Display",
-          "Transaction Count Monitor",
-          "block all new transactions"
+          "generate csv file and link it"
         ]
       },
       "acceptanceCriteria": [
-        "Dashboard shows real-time system status",
-        "Emergency pause button immediately updates system state",
-        "Budget remaining displays current balance in INR",
-        "Transaction count shows total processed transactions",
-        "All controls are functional and update backend state"
+        "CSV file is placed in frontend/public/assets/ directory",
+        "File is accessible via direct URL path",
+        "File name clearly indicates it contains 2000 registry records"
       ]
     },
     {
-      "id": "REQ-9",
-      "text": "Build transaction processing interface where users can submit benefit claims by entering Citizen_ID and selecting scheme. Display validation results for all three gates, show approval/rejection status with detailed reason, and update transaction history in real-time.",
+      "id": "REQ-13",
+      "text": "Add a visible download link or button in the application UI (either in the admin dashboard or a dedicated section) that allows users to download the jan_dhan_registry_2000.csv dataset file.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-2"
+          "msg-5"
         ],
         "quotes": [
-          "Three-Key Verification Protocol",
-          "processes benefit transactions"
+          "link it"
         ]
       },
       "acceptanceCriteria": [
-        "User can input Citizen_ID and select scheme from available options",
-        "Interface displays results from eligibility, budget, and frequency gates",
-        "Approval or rejection is clearly shown with specific reason",
-        "Transaction history updates immediately after processing"
-      ]
-    },
-    {
-      "id": "REQ-10",
-      "text": "Create beautiful, professional frontend UI for both transaction processing and admin dashboard using modern design patterns. Interface must be intuitive, responsive, and clearly communicate system security features.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "make the frontend beautiful"
-        ]
-      },
-      "acceptanceCriteria": [
-        "UI uses cohesive color scheme and typography",
-        "Layout is clean and professional",
-        "Security features are visually emphasized",
-        "Interface is responsive across screen sizes",
-        "User actions provide clear visual feedback"
+        "Download link/button is clearly visible and labeled",
+        "Clicking the link initiates CSV file download",
+        "Link includes file size information if possible"
       ]
     }
   ],
   "constraints": [
-    "System must use SHA-256 hashing only (no other hash algorithms)",
-    "Budget must start at exactly ₹10,00,000 INR",
-    "Frequency gate must enforce strict 30-day blocking period",
-    "Ledger tampering detection must freeze entire system immediately",
-    "All validation gates must pass before any transaction approval",
-    "CSV dataset must contain approximately 2000 records with exact schema provided"
+    "CSV file must match the exact schema format provided: Citizen_ID, Income_Tier, Scheme_Eligibility, Scheme_Amount, Last_Claim_Date, Region_Code, Account_Status, Aadhaar_Linked, Claim_Count",
+    "Date format must be DD-MM-YYYY to match existing sample data format",
+    "All Citizen_IDs must be unique 12-digit numbers"
   ],
   "nonGoals": [
-    "External database integration",
-    "Real-time SMS or email notifications",
-    "Multi-language support",
-    "Mobile application version",
-    "Integration with actual government Aadhaar systems",
-    "Payment gateway integration"
+    "Implementing CSV import functionality into the backend (already planned separately)",
+    "Creating a CSV upload interface for users",
+    "Generating more than 2000 records"
   ],
   "imageRequirements": {
     "required": [],

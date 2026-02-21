@@ -1,11 +1,12 @@
 {
-  "frontend/src/App.tsx": "Main application component with tab-based navigation between transaction processing and admin dashboard views.",
-  "frontend/src/components/Layout.tsx": "Application layout wrapper with header featuring Jan-Dhan Gateway branding, security indicators, and footer with attribution.",
-  "frontend/src/components/AdminDashboard.tsx": "Admin control panel displaying system status, emergency pause controls, budget monitoring, transaction counts, and active security features.",
-  "frontend/src/components/TransactionForm.tsx": "Transaction submission form with Citizen ID input, scheme selection, real-time three-gate validation display, and approval/rejection results.",
-  "frontend/src/components/TransactionHistory.tsx": "Transaction history viewer displaying recent benefit claims with status, timestamps, and rejection reasons in a scrollable list.",
+  "frontend/src/App.tsx": "Main application component with tab-based navigation between benefit processing and admin dashboard views.",
+  "frontend/src/components/Layout.tsx": "Application layout wrapper with header featuring Employee Benefits Gateway branding, security indicators, and footer with attribution.",
+  "frontend/src/components/AdminDashboard.tsx": "Admin control panel displaying system status, emergency pause controls, budget monitoring, transaction counts, and active security features for employee benefit processing with proper icon imports.",
+  "frontend/src/components/TransactionForm.tsx": "Benefit request submission form with employee ID input, benefit type selection (Salary Advance, Medical Reimbursement, Travel Allowance), amount input, real-time three-gate validation display, and backend integration for employee eligibility validation.",
+  "frontend/src/components/TransactionHistory.tsx": "Transaction history viewer displaying recent employee benefit requests with employee details (ID, name, department, designation), benefit type, amount, status badges, and rejection reasons in a scrollable list.",
   "frontend/src/index.css": "Global styles with OKLCH-based color system featuring trust-focused blue palette for security emphasis in both light and dark modes.",
   "frontend/tailwind.config.js": "Tailwind configuration with custom fonts (Inter, JetBrains Mono), security-themed colors, custom shadows, and animations for the Jan-Dhan Gateway design system.",
   "frontend/src/hooks/useQueries.ts": "React Query hooks for system status and transaction history (placeholder implementations awaiting backend completion).",
-  "frontend/public/assets/jan_dhan_registry_2000.csv": "CSV dataset containing 500 citizen records with columns for Citizen_ID, Income_Tier, Scheme_Eligibility, Scheme_Amount, Last_Claim_Date, Region_Code, Account_Status, Aadhaar_Linked, and Claim_Count. Data includes varied income tiers (Low, Middle, High), scheme types (Pension, Health, Education), region codes (RG001-RG005), account statuses (Active/Inactive), Aadhaar linkage (TRUE/FALSE), and claim counts (0-5)."
+  "frontend/public/assets/jan_dhan_registry_2000.csv": "CSV dataset containing 500 employee records with columns for employee_id, name, email, phone, department, designation, date_of_joining, salary, location, and status (Active/Inactive).",
+  "frontend/index.html": "HTML entry point with updated title and meta description for Employee Benefits Gateway application."
 }

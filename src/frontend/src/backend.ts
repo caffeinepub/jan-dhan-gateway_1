@@ -89,26 +89,148 @@ export class ExternalBlob {
         return this;
     }
 }
-export type CitizenID = string;
-export interface backendInterface {
-    requestMoney(arg0: CitizenID): Promise<void>;
+export interface ValidationRequest {
+    benefitSchemeName: string;
+    employeeId: string;
+    requestedAmount: bigint;
+    timestamp: bigint;
 }
+export interface BenefitScheme {
+    name: string;
+    salaryRangeMax: bigint;
+    salaryRangeMin: bigint;
+    eligibilityDepartment: string;
+    eligibilityDesignation: string;
+    benefitType: string;
+}
+export interface EmployeeRecord {
+    status: string;
+    salary: bigint;
+    name: string;
+    designation: string;
+    date_of_joining: string;
+    email: string;
+    phone: string;
+    department: string;
+    location: string;
+    employee_id: string;
+}
+export interface ValidationResponse {
+    isEligible: boolean;
+    message: string;
+    approvedAmount: bigint;
+    reason?: string;
+}
+export interface backendInterface {
+    addBenefitScheme(scheme: BenefitScheme): Promise<void>;
+    addEmployee(employee: EmployeeRecord): Promise<void>;
+    getBenefitScheme(schemeName: string): Promise<BenefitScheme | null>;
+    getEmployee(employeeId: string): Promise<EmployeeRecord | null>;
+    validateEligibility(request: ValidationRequest): Promise<ValidationResponse>;
+}
+import type { BenefitScheme as _BenefitScheme, EmployeeRecord as _EmployeeRecord, ValidationResponse as _ValidationResponse } from "./declarations/backend.did.d.ts";
 export class Backend implements backendInterface {
     constructor(private actor: ActorSubclass<_SERVICE>, private _uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, private _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, private processError?: (error: unknown) => never){}
-    async requestMoney(arg0: CitizenID): Promise<void> {
+    async addBenefitScheme(arg0: BenefitScheme): Promise<void> {
         if (this.processError) {
             try {
-                const result = await this.actor.requestMoney(arg0);
+                const result = await this.actor.addBenefitScheme(arg0);
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.requestMoney(arg0);
+            const result = await this.actor.addBenefitScheme(arg0);
             return result;
         }
     }
+    async addEmployee(arg0: EmployeeRecord): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.addEmployee(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.addEmployee(arg0);
+            return result;
+        }
+    }
+    async getBenefitScheme(arg0: string): Promise<BenefitScheme | null> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getBenefitScheme(arg0);
+                return from_candid_opt_n1(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getBenefitScheme(arg0);
+            return from_candid_opt_n1(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getEmployee(arg0: string): Promise<EmployeeRecord | null> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getEmployee(arg0);
+                return from_candid_opt_n2(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getEmployee(arg0);
+            return from_candid_opt_n2(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async validateEligibility(arg0: ValidationRequest): Promise<ValidationResponse> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.validateEligibility(arg0);
+                return from_candid_ValidationResponse_n3(this._uploadFile, this._downloadFile, result);
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.validateEligibility(arg0);
+            return from_candid_ValidationResponse_n3(this._uploadFile, this._downloadFile, result);
+        }
+    }
+}
+function from_candid_ValidationResponse_n3(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _ValidationResponse): ValidationResponse {
+    return from_candid_record_n4(_uploadFile, _downloadFile, value);
+}
+function from_candid_opt_n1(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_BenefitScheme]): BenefitScheme | null {
+    return value.length === 0 ? null : value[0];
+}
+function from_candid_opt_n2(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [_EmployeeRecord]): EmployeeRecord | null {
+    return value.length === 0 ? null : value[0];
+}
+function from_candid_opt_n5(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [string]): string | null {
+    return value.length === 0 ? null : value[0];
+}
+function from_candid_record_n4(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    isEligible: boolean;
+    message: string;
+    approvedAmount: bigint;
+    reason: [] | [string];
+}): {
+    isEligible: boolean;
+    message: string;
+    approvedAmount: bigint;
+    reason?: string;
+} {
+    return {
+        isEligible: value.isEligible,
+        message: value.message,
+        approvedAmount: value.approvedAmount,
+        reason: record_opt_to_undefined(from_candid_opt_n5(_uploadFile, _downloadFile, value.reason))
+    };
 }
 export interface CreateActorOptions {
     agent?: Agent;

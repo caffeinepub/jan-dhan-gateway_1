@@ -14,7 +14,7 @@ function App() {
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
             <TabsTrigger value="transactions" className="text-base">
-              Process Claims
+              Process Benefits
             </TabsTrigger>
             <TabsTrigger value="admin" className="text-base">
               Admin Dashboard

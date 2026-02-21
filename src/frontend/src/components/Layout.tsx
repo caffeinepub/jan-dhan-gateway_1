@@ -4,7 +4,7 @@ import { SiCoffeescript } from 'react-icons/si';
 export function Layout({ children }: { children: React.ReactNode }) {
   const currentYear = new Date().getFullYear();
   const appIdentifier = encodeURIComponent(
-    typeof window !== 'undefined' ? window.location.hostname : 'jan-dhan-gateway'
+    typeof window !== 'undefined' ? window.location.hostname : 'employee-benefits-gateway'
   );
 
   return (
@@ -20,10 +20,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
               </div>
               <div>
                 <h1 className="text-2xl font-bold tracking-tight text-foreground">
-                  Jan-Dhan Gateway
+                  Employee Benefits Gateway
                 </h1>
                 <p className="text-sm text-muted-foreground">
-                  Fraud-Proof Benefit Distribution System
+                  Secure Employee Benefit Processing System
                 </p>
               </div>
             </div>
@@ -46,7 +46,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Shield className="h-4 w-4" />
-              <span>© {currentYear} Jan-Dhan Gateway. All rights reserved.</span>
+              <span>© {currentYear} Employee Benefits Gateway. All rights reserved.</span>
             </div>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <span>Built with</span>

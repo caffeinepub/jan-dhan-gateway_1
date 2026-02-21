@@ -10,6 +10,7 @@ import {
   Play,
   AlertTriangle,
   CheckCircle2,
+  XCircle,
   Lock,
   TrendingDown,
   Activity,
@@ -38,80 +39,78 @@ export function AdminDashboard() {
   const getStatusColor = () => {
     switch (systemStatus) {
       case 'Active':
-        return 'bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20';
+        return 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20';
       case 'Paused':
-        return 'bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20';
+        return 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/20';
       case 'Frozen':
-        return 'bg-red-500/10 text-red-700 dark:text-red-400 border-red-500/20';
+        return 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20';
     }
   };
 
-  const getStatusIcon = () => {
-    switch (systemStatus) {
-      case 'Active':
-        return <CheckCircle2 className="h-5 w-5" />;
-      case 'Paused':
-        return <Pause className="h-5 w-5" />;
-      case 'Frozen':
-        return <Lock className="h-5 w-5" />;
-    }
-  };
+  const securityFeatures = [
+    { name: 'Sequential Validation', active: true },
+    { name: 'Employee Status Check', active: true },
+    { name: 'Department Verification', active: true },
+    { name: 'Salary Range Validation', active: true },
+    { name: 'Budget Monitoring', active: true },
+  ];
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
-      {/* System Status Alert */}
-      <Alert className={systemStatus !== 'Active' ? 'border-yellow-500/50 bg-yellow-500/5' : ''}>
-        <Shield className="h-4 w-4" />
-        <AlertDescription>
-          {systemStatus === 'Active' && 'System is operational. All validation gates are active.'}
-          {systemStatus === 'Paused' && 'System is paused. New transactions are blocked.'}
-          {systemStatus === 'Frozen' &&
-            'System is frozen due to security violation. Contact administrator.'}
-        </AlertDescription>
-      </Alert>
-
-      {/* Main Status Card */}
+    <div className="space-y-6">
+      {/* System Status Card */}
       <Card className="border-2">
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle className="text-2xl flex items-center gap-2">
-                <Shield className="h-6 w-6 text-primary" />
-                System Status Monitor
-              </CardTitle>
-              <CardDescription>Real-time system health and control panel</CardDescription>
+          <CardTitle className="flex items-center gap-2">
+            <Shield className="h-5 w-5 text-primary" />
+            System Status & Controls
+          </CardTitle>
+          <CardDescription>
+            Monitor and control the employee benefits processing system
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Status Badge */}
+          <div className="flex items-center justify-between p-4 rounded-lg border bg-card/50">
+            <div className="flex items-center gap-3">
+              <Activity className="h-5 w-5 text-primary" />
+              <div>
+                <p className="text-sm font-medium">Current Status</p>
+                <p className="text-xs text-muted-foreground">System operational state</p>
+              </div>
             </div>
-            <Badge className={`${getStatusColor()} text-base px-4 py-2 flex items-center gap-2`}>
-              {getStatusIcon()}
+            <Badge className={`${getStatusColor()} text-sm px-3 py-1`}>
+              {systemStatus === 'Active' && <CheckCircle2 className="h-3 w-3 mr-1" />}
+              {systemStatus === 'Paused' && <Pause className="h-3 w-3 mr-1" />}
+              {systemStatus === 'Frozen' && <Lock className="h-3 w-3 mr-1" />}
               {systemStatus}
             </Badge>
           </div>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Emergency Controls */}
-          <div className="flex items-center justify-between p-4 rounded-lg bg-destructive/5 border border-destructive/20">
-            <div className="flex items-center gap-3">
-              <AlertTriangle className="h-6 w-6 text-destructive" />
-              <div>
-                <h3 className="font-semibold text-foreground">Emergency Kill Switch</h3>
-                <p className="text-sm text-muted-foreground">
-                  Immediately halt all transaction processing
-                </p>
-              </div>
-            </div>
+
+          {/* Emergency Pause Button */}
+          <div className="space-y-3">
+            <Alert className="border-yellow-500/50 bg-yellow-500/5">
+              <AlertTriangle className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+              <AlertDescription className="text-sm">
+                Emergency pause will immediately halt all benefit processing. Use only in case of
+                security concerns or system issues.
+              </AlertDescription>
+            </Alert>
             <Button
-              variant={systemStatus === 'Active' ? 'destructive' : 'default'}
-              size="lg"
               onClick={handleEmergencyPause}
-              disabled={isPausing || systemStatus === 'Frozen'}
-              className="min-w-[140px]"
+              variant={systemStatus === 'Active' ? 'destructive' : 'default'}
+              className="w-full"
+              size="lg"
+              disabled={isPausing}
             >
               {isPausing ? (
-                'Processing...'
+                <>
+                  <Activity className="h-4 w-4 mr-2 animate-spin" />
+                  Processing...
+                </>
               ) : systemStatus === 'Active' ? (
                 <>
                   <Pause className="h-4 w-4 mr-2" />
-                  Pause System
+                  Emergency Pause System
                 </>
               ) : (
                 <>
@@ -121,102 +120,92 @@ export function AdminDashboard() {
               )}
             </Button>
           </div>
+        </CardContent>
+      </Card>
 
-          {/* Metrics Grid */}
-          <div className="grid md:grid-cols-2 gap-4">
-            {/* Budget Card */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base flex items-center gap-2">
-                  <IndianRupee className="h-4 w-4 text-primary" />
-                  Budget Remaining
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-bold text-foreground">
-                    ₹{budgetRemaining.toLocaleString('en-IN')}
-                  </span>
-                  <span className="text-sm text-muted-foreground">INR</span>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Budget Used</span>
-                    <span className="font-medium">{budgetUsedPercent.toFixed(1)}%</span>
-                  </div>
-                  <Progress value={budgetUsedPercent} className="h-2" />
-                </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <TrendingDown className="h-4 w-4" />
-                  <span>Initial: ₹{initialBudget.toLocaleString('en-IN')}</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Transaction Count Card */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base flex items-center gap-2">
-                  <Activity className="h-4 w-4 text-primary" />
-                  Transaction Monitor
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-bold text-foreground">{transactionCount}</span>
-                  <span className="text-sm text-muted-foreground">processed</span>
-                </div>
-                <div className="space-y-2 pt-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Approved</span>
-                    <span className="font-medium text-green-600 dark:text-green-400">0</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Rejected</span>
-                    <span className="font-medium text-red-600 dark:text-red-400">0</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Security Features */}
-          <Card className="bg-primary/5 border-primary/20">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base flex items-center gap-2">
-                <Shield className="h-4 w-4 text-primary" />
-                Active Security Features
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid sm:grid-cols-2 gap-3">
-                <div className="flex items-center gap-2 text-sm">
-                  <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
-                  <span>SHA-256 ID Hashing</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
-                  <span>Hash-Linked Ledger</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
-                  <span>Replay Attack Prevention</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
-                  <span>Tamper Detection</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
-                  <span>Three-Gate Validation</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm">
-                  <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
-                  <span>30-Day Frequency Lock</span>
-                </div>
+      {/* Statistics Grid */}
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Budget Monitor */}
+        <Card className="border-2">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <IndianRupee className="h-5 w-5 text-primary" />
+              Budget Monitor
+            </CardTitle>
+            <CardDescription>Track benefit budget utilization</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Remaining Budget</span>
+                <span className="font-bold text-lg">
+                  ₹{budgetRemaining.toLocaleString('en-IN')}
+                </span>
               </div>
-            </CardContent>
-          </Card>
+              <Progress value={100 - budgetUsedPercent} className="h-2" />
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <span>Used: {budgetUsedPercent.toFixed(1)}%</span>
+                <span>Total: ₹{initialBudget.toLocaleString('en-IN')}</span>
+              </div>
+            </div>
+            {budgetUsedPercent > 80 && (
+              <Alert className="border-yellow-500/50 bg-yellow-500/5">
+                <TrendingDown className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+                <AlertDescription className="text-xs">
+                  Budget utilization is high. Consider reviewing benefit allocations.
+                </AlertDescription>
+              </Alert>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Transaction Counter */}
+        <Card className="border-2">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Activity className="h-5 w-5 text-primary" />
+              Transaction Count
+            </CardTitle>
+            <CardDescription>Total benefits processed today</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-center py-6">
+              <div className="text-center">
+                <p className="text-5xl font-bold text-primary">{transactionCount}</p>
+                <p className="text-sm text-muted-foreground mt-2">Benefits Processed</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Security Features */}
+      <Card className="border-2">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Lock className="h-5 w-5 text-primary" />
+            Active Security Features
+          </CardTitle>
+          <CardDescription>
+            Multi-layer validation protecting employee benefit processing
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {securityFeatures.map((feature, index) => (
+              <div
+                key={index}
+                className="flex items-center gap-3 p-3 rounded-lg border bg-card/50"
+              >
+                {feature.active ? (
+                  <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0" />
+                ) : (
+                  <XCircle className="h-5 w-5 text-red-600 dark:text-red-400 flex-shrink-0" />
+                )}
+                <span className="text-sm font-medium">{feature.name}</span>
+              </div>
+            ))}
+          </div>
         </CardContent>
       </Card>
     </div>

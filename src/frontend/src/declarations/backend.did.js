@@ -8,18 +8,106 @@
 
 import { IDL } from '@icp-sdk/core/candid';
 
-export const CitizenID = IDL.Text;
+export const BenefitScheme = IDL.Record({
+  'name' : IDL.Text,
+  'salaryRangeMax' : IDL.Nat,
+  'salaryRangeMin' : IDL.Nat,
+  'eligibilityDepartment' : IDL.Text,
+  'eligibilityDesignation' : IDL.Text,
+  'benefitType' : IDL.Text,
+});
+export const EmployeeRecord = IDL.Record({
+  'status' : IDL.Text,
+  'salary' : IDL.Nat,
+  'name' : IDL.Text,
+  'designation' : IDL.Text,
+  'date_of_joining' : IDL.Text,
+  'email' : IDL.Text,
+  'phone' : IDL.Text,
+  'department' : IDL.Text,
+  'location' : IDL.Text,
+  'employee_id' : IDL.Text,
+});
+export const ValidationRequest = IDL.Record({
+  'benefitSchemeName' : IDL.Text,
+  'employeeId' : IDL.Text,
+  'requestedAmount' : IDL.Nat,
+  'timestamp' : IDL.Int,
+});
+export const ValidationResponse = IDL.Record({
+  'isEligible' : IDL.Bool,
+  'message' : IDL.Text,
+  'approvedAmount' : IDL.Nat,
+  'reason' : IDL.Opt(IDL.Text),
+});
 
 export const idlService = IDL.Service({
-  'requestMoney' : IDL.Func([CitizenID], [], []),
+  'addBenefitScheme' : IDL.Func([BenefitScheme], [], []),
+  'addEmployee' : IDL.Func([EmployeeRecord], [], []),
+  'getBenefitScheme' : IDL.Func(
+      [IDL.Text],
+      [IDL.Opt(BenefitScheme)],
+      ['query'],
+    ),
+  'getEmployee' : IDL.Func([IDL.Text], [IDL.Opt(EmployeeRecord)], ['query']),
+  'validateEligibility' : IDL.Func(
+      [ValidationRequest],
+      [ValidationResponse],
+      [],
+    ),
 });
 
 export const idlInitArgs = [];
 
 export const idlFactory = ({ IDL }) => {
-  const CitizenID = IDL.Text;
+  const BenefitScheme = IDL.Record({
+    'name' : IDL.Text,
+    'salaryRangeMax' : IDL.Nat,
+    'salaryRangeMin' : IDL.Nat,
+    'eligibilityDepartment' : IDL.Text,
+    'eligibilityDesignation' : IDL.Text,
+    'benefitType' : IDL.Text,
+  });
+  const EmployeeRecord = IDL.Record({
+    'status' : IDL.Text,
+    'salary' : IDL.Nat,
+    'name' : IDL.Text,
+    'designation' : IDL.Text,
+    'date_of_joining' : IDL.Text,
+    'email' : IDL.Text,
+    'phone' : IDL.Text,
+    'department' : IDL.Text,
+    'location' : IDL.Text,
+    'employee_id' : IDL.Text,
+  });
+  const ValidationRequest = IDL.Record({
+    'benefitSchemeName' : IDL.Text,
+    'employeeId' : IDL.Text,
+    'requestedAmount' : IDL.Nat,
+    'timestamp' : IDL.Int,
+  });
+  const ValidationResponse = IDL.Record({
+    'isEligible' : IDL.Bool,
+    'message' : IDL.Text,
+    'approvedAmount' : IDL.Nat,
+    'reason' : IDL.Opt(IDL.Text),
+  });
   
-  return IDL.Service({ 'requestMoney' : IDL.Func([CitizenID], [], []) });
+  return IDL.Service({
+    'addBenefitScheme' : IDL.Func([BenefitScheme], [], []),
+    'addEmployee' : IDL.Func([EmployeeRecord], [], []),
+    'getBenefitScheme' : IDL.Func(
+        [IDL.Text],
+        [IDL.Opt(BenefitScheme)],
+        ['query'],
+      ),
+    'getEmployee' : IDL.Func([IDL.Text], [IDL.Opt(EmployeeRecord)], ['query']),
+    'validateEligibility' : IDL.Func(
+        [ValidationRequest],
+        [ValidationResponse],
+        [],
+      ),
+  });
 };
 
 export const init = ({ IDL }) => { return []; };

@@ -14,9 +14,10 @@ import {
   Shield,
   User,
   Wallet,
-  Clock,
   AlertTriangle,
 } from 'lucide-react';
+import { useActor } from '@/hooks/useActor';
+import type { ValidationRequest } from '@/backend';
 
 type ValidationGate = {
   name: string;
@@ -25,8 +26,10 @@ type ValidationGate = {
 };
 
 export function TransactionForm() {
-  const [citizenId, setCitizenId] = useState('');
+  const { actor } = useActor();
+  const [employeeId, setEmployeeId] = useState('');
   const [scheme, setScheme] = useState('');
+  const [amount, setAmount] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [validationGates, setValidationGates] = useState<ValidationGate[]>([]);
   const [result, setResult] = useState<{ status: 'approved' | 'rejected'; message: string } | null>(
@@ -34,13 +37,15 @@ export function TransactionForm() {
   );
 
   const schemes = [
-    { value: 'Pension', label: 'Pension Scheme - ₹2,000' },
-    { value: 'Health', label: 'Health Scheme - ₹5,000' },
-    { value: 'Education', label: 'Education Scheme - ₹3,000' },
+    { value: 'Salary Advance', label: 'Salary Advance - Up to ₹50,000', defaultAmount: '30000' },
+    { value: 'Medical Reimbursement', label: 'Medical Reimbursement - Up to ₹25,000', defaultAmount: '15000' },
+    { value: 'Travel Allowance', label: 'Travel Allowance - Up to ₹10,000', defaultAmount: '8000' },
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!actor) return;
+
     setIsProcessing(true);
     setResult(null);
 
@@ -52,28 +57,63 @@ export function TransactionForm() {
     ];
     setValidationGates(gates);
 
-    // Simulate validation process
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    gates[0].status = 'pass';
-    gates[0].message = 'Account active, Aadhaar linked, scheme eligible';
-    setValidationGates([...gates]);
+    try {
+      // Simulate gate-by-gate validation
+      await new Promise((resolve) => setTimeout(resolve, 800));
+      gates[0].status = 'pass';
+      gates[0].message = 'Employee active, department and designation verified';
+      setValidationGates([...gates]);
 
-    await new Promise((resolve) => setTimeout(resolve, 600));
-    gates[1].status = 'pass';
-    gates[1].message = 'Sufficient budget available';
-    setValidationGates([...gates]);
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      gates[1].status = 'pass';
+      gates[1].message = 'Sufficient budget available for benefit type';
+      setValidationGates([...gates]);
 
-    await new Promise((resolve) => setTimeout(resolve, 600));
-    gates[2].status = 'fail';
-    gates[2].message = 'Last claim was 15 days ago (minimum 30 days required)';
-    setValidationGates([...gates]);
+      await new Promise((resolve) => setTimeout(resolve, 600));
 
-    await new Promise((resolve) => setTimeout(resolve, 400));
-    setResult({
-      status: 'rejected',
-      message: 'Transaction rejected: Frequency gate violation. Please wait 15 more days.',
-    });
-    setIsProcessing(false);
+      // Call backend validation
+      const request: ValidationRequest = {
+        employeeId,
+        benefitSchemeName: scheme,
+        requestedAmount: BigInt(amount),
+        timestamp: BigInt(Date.now()),
+      };
+
+      const response = await actor.validateEligibility(request);
+
+      if (response.isEligible) {
+        gates[2].status = 'pass';
+        gates[2].message = 'All validation checks passed';
+        setValidationGates([...gates]);
+
+        await new Promise((resolve) => setTimeout(resolve, 400));
+        setResult({
+          status: 'approved',
+          message: `Benefit approved! Amount: ₹${Number(response.approvedAmount).toLocaleString('en-IN')}`,
+        });
+      } else {
+        gates[2].status = 'fail';
+        gates[2].message = response.reason || 'Validation failed';
+        setValidationGates([...gates]);
+
+        await new Promise((resolve) => setTimeout(resolve, 400));
+        setResult({
+          status: 'rejected',
+          message: `Benefit rejected: ${response.message}`,
+        });
+      }
+    } catch (error: any) {
+      gates[0].status = 'fail';
+      gates[0].message = error.message || 'Validation error occurred';
+      setValidationGates([...gates]);
+
+      setResult({
+        status: 'rejected',
+        message: `Error: ${error.message || 'Unknown error'}`,
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const getGateIcon = (status: ValidationGate['status']) => {
@@ -92,10 +132,10 @@ export function TransactionForm() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Shield className="h-5 w-5 text-primary" />
-          Process Benefit Claim
+          Process Benefit Request
         </CardTitle>
         <CardDescription>
-          Submit a claim for sequential validation through three security gates
+          Submit an employee benefit request for sequential validation
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -103,33 +143,41 @@ export function TransactionForm() {
           {/* Input Fields */}
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="citizenId" className="flex items-center gap-2">
+              <Label htmlFor="employeeId" className="flex items-center gap-2">
                 <User className="h-4 w-4" />
-                Citizen ID
+                Employee ID
               </Label>
               <Input
-                id="citizenId"
-                placeholder="Enter 12-digit Citizen ID"
-                value={citizenId}
-                onChange={(e) => setCitizenId(e.target.value)}
-                maxLength={12}
-                pattern="[0-9]{12}"
+                id="employeeId"
+                placeholder="Enter Employee ID (e.g., EMP001)"
+                value={employeeId}
+                onChange={(e) => setEmployeeId(e.target.value)}
                 required
                 className="font-mono"
               />
               <p className="text-xs text-muted-foreground">
-                12-digit numeric identifier (will be hashed with SHA-256)
+                Employee identifier from the registry
               </p>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="scheme" className="flex items-center gap-2">
                 <Wallet className="h-4 w-4" />
-                Benefit Scheme
+                Benefit Type
               </Label>
-              <Select value={scheme} onValueChange={setScheme} required>
+              <Select 
+                value={scheme} 
+                onValueChange={(value) => {
+                  setScheme(value);
+                  const selectedScheme = schemes.find(s => s.value === value);
+                  if (selectedScheme) {
+                    setAmount(selectedScheme.defaultAmount);
+                  }
+                }} 
+                required
+              >
                 <SelectTrigger id="scheme">
-                  <SelectValue placeholder="Select a scheme" />
+                  <SelectValue placeholder="Select a benefit type" />
                 </SelectTrigger>
                 <SelectContent>
                   {schemes.map((s) => (
@@ -139,6 +187,25 @@ export function TransactionForm() {
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="amount" className="flex items-center gap-2">
+                <Wallet className="h-4 w-4" />
+                Requested Amount (₹)
+              </Label>
+              <Input
+                id="amount"
+                type="number"
+                placeholder="Enter amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                required
+                min="1"
+              />
+              <p className="text-xs text-muted-foreground">
+                Amount must be within benefit type limits
+              </p>
             </div>
           </div>
 
@@ -205,7 +272,7 @@ export function TransactionForm() {
             type="submit"
             className="w-full"
             size="lg"
-            disabled={isProcessing || !citizenId || !scheme}
+            disabled={isProcessing || !employeeId || !scheme || !amount || !actor}
           >
             {isProcessing ? (
               <>

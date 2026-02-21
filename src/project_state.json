@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 7,
+  "projectStateVersion": 9,
   "summary": "Jan-Dhan Gateway - Fraud-proof benefit distribution system with sequential validation engine, hash-linked ledger, three-key verification protocol (eligibility, budget, frequency gates), ID-hash validator using SHA-256, immutable transaction ledger, admin kill-switch panel, and CSV dataset integration (2000 records)",
   "architectural_notes": [
     "Use SHA-256 hashing for Citizen_ID storage and validation",
@@ -52,6 +52,38 @@
       "title": "Regenerate the CSV dataset file at frontend/public/assets/jan_dhan_registry_2000.csv with approximately 500 records instead of 2000, maintaining the existing schema with columns: Citizen_ID (12-digit text), Income_Tier, Scheme_Eligibility, Scheme_Amount (number), Last_Claim_Date (DD-MM-YYYY format), Region_Code, Account_Status (Active/Inactive), Aadhaar_Linked (TRUE/FALSE), Claim_Count (number). Preserve data variety including different income tiers, multiple scheme types (Pension, Health, Education), various region codes, mix of Active/Inactive accounts, TRUE/FALSE Aadhaar linkage status, and claim counts ranging from 0 to 5.",
       "reqIds": [
         "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-a-new-csv-dataset-file-at-frontend-public-assets-jan-dhan-registry-2000-csv-containing-approximately-500-employee-records-with-columns-employee-id-text-name-text-email-text-phone-text-department-text-designation-text-date-of-joining-dd-mm-yyyy-format-salary-number-location-text-status-active-inactive-include-variety-across-departments-hr-finance-it-operations-marketing-sales-multiple-designations-manager-senior-executive-executive-team-lead-various-locations-mumbai-delhi-bangalore-chennai-hyderabad-pune-mix-of-active-inactive-status-salaries-ranging-from-25000-to-150000-and-joining-dates-between-2018-and-2024",
+      "title": "Generate a new CSV dataset file at frontend/public/assets/jan_dhan_registry_2000.csv containing approximately 500 employee records with columns: employee_id (text), name (text), email (text), phone (text), department (text), designation (text), date_of_joining (DD-MM-YYYY format), salary (number), location (text), status (Active/Inactive). Include variety across departments (HR, Finance, IT, Operations, Marketing, Sales), multiple designations (Manager, Senior Executive, Executive, Team Lead), various locations (Mumbai, Delhi, Bangalore, Chennai, Hyderabad, Pune), mix of Active/Inactive status, salaries ranging from 25000 to 150000, and joining dates between 2018 and 2024.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-transaction-processing-interface-in-frontend-src-components-transactionform-tsx-to-work-with-employee-records-instead-of-citizen-records-replace-citizen-id-input-with-employee-id-input-update-scheme-selection-to-reflect-employee-relevant-schemes-or-benefits-e-g-salary-advance-medical-reimbursement-travel-allowance-and-adjust-validation-logic-to-check-employee-eligibility-based-on-department-designation-status-and-other-employee-specific-criteria",
+      "title": "Update transaction processing interface in frontend/src/components/TransactionForm.tsx to work with employee records instead of citizen records. Replace Citizen_ID input with employee_id input, update scheme selection to reflect employee-relevant schemes or benefits (e.g., Salary Advance, Medical Reimbursement, Travel Allowance), and adjust validation logic to check employee eligibility based on department, designation, status, and other employee-specific criteria.",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-transaction-history-display-in-frontend-src-components-transactionhistory-tsx-to-show-employee-specific-transaction-details-including-employee-id-employee-name-department-designation-benefit-type-amount-approval-rejection-status-and-timestamp",
+      "title": "Update transaction history display in frontend/src/components/TransactionHistory.tsx to show employee-specific transaction details including employee_id, employee name, department, designation, benefit type, amount, approval/rejection status, and timestamp.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-application-branding-and-labels-throughout-the-ui-to-reflect-employee-benefit-processing-instead-of-citizen-benefit-processing-change-jan-dhan-gateway-header-to-employee-benefits-gateway-update-form-labels-to-use-employee-terminology-and-adjust-all-user-facing-text-to-reflect-the-employee-benefits-context",
+      "title": "Update application branding and labels throughout the UI to reflect employee benefit processing instead of citizen benefit processing. Change 'Jan-Dhan Gateway' header to 'Employee Benefits Gateway', update form labels to use employee terminology, and adjust all user-facing text to reflect the employee benefits context.",
+      "reqIds": [
+        "REQ-20"
       ],
       "version": 1
     }
@@ -175,6 +207,22 @@
       "id": "AR-18",
       "summary": "Reduce CSV dataset from 2000 records to approximately 500 records while maintaining data variety",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-20",
+      "summary": "Update backend data model in backend/main.mo to support employee registry with fields: employee_id (Text), name (Text), email (Text), phone (Text), department (Text), designation (Text), date_of_joining (Text for DD-MM-YYYY format), salary (Nat), location (Text), status (Text for Active/Inactive). Replace or extend existing CitizenRecord type to accommodate employee data structure.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-22",
+      "summary": "Update Gate 1: Eligibility Gate validation logic to check that employee_id exists in employee registry, status equals Active, department and designation match eligibility criteria for requested benefit scheme, and salary falls within appropriate range for the benefit type.",
+      "reqIds": [
+        "REQ-18"
+      ],
       "status": "pending"
     }
   ],

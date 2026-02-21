@@ -1,38 +1,140 @@
 {
   "kind": "build_request",
-  "title": "Reduce CSV dataset from 2000 to 500 records",
+  "title": "Build Jan-Dhan Gateway with employee dataset",
   "projectName": "Jan-Dhan Gateway",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-14",
-      "text": "Regenerate the CSV dataset file at frontend/public/assets/jan_dhan_registry_2000.csv with approximately 500 records instead of 2000, maintaining the existing schema with columns: Citizen_ID (12-digit text), Income_Tier, Scheme_Eligibility, Scheme_Amount (number), Last_Claim_Date (DD-MM-YYYY format), Region_Code, Account_Status (Active/Inactive), Aadhaar_Linked (TRUE/FALSE), Claim_Count (number). Preserve data variety including different income tiers, multiple scheme types (Pension, Health, Education), various region codes, mix of Active/Inactive accounts, TRUE/FALSE Aadhaar linkage status, and claim counts ranging from 0 to 5.",
+      "id": "REQ-15",
+      "text": "Generate a new CSV dataset file at frontend/public/assets/jan_dhan_registry_2000.csv containing approximately 500 employee records with columns: employee_id (text), name (text), email (text), phone (text), department (text), designation (text), date_of_joining (DD-MM-YYYY format), salary (number), location (text), status (Active/Inactive). Include variety across departments (HR, Finance, IT, Operations, Marketing, Sales), multiple designations (Manager, Senior Executive, Executive, Team Lead), various locations (Mumbai, Delhi, Bangalore, Chennai, Hyderabad, Pune), mix of Active/Inactive status, salaries ranging from 25000 to 150000, and joining dates between 2018 and 2024.",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-5"
         ],
         "quotes": [
-          "give the data you use in csv file give approx of 500 data"
+          "now create a same website with this dataset"
         ]
       },
       "acceptanceCriteria": [
-        "CSV file contains approximately 500 records (acceptable range: 480-520 records)",
-        "All existing schema columns are preserved with correct data types",
-        "Data variety is maintained across all categorical fields",
-        "File remains downloadable from the same location in the application"
+        "CSV file contains approximately 500 employee records",
+        "All columns from uploaded dataset are preserved: employee_id, name, email, phone, department, designation, date_of_joining, salary, location, status",
+        "Data includes variety of departments, designations, locations, and status values",
+        "Salary values range between 25000 and 150000",
+        "Date of joining values span from 2018 to 2024",
+        "File is accessible for download at frontend/public/assets/jan_dhan_registry_2000.csv"
+      ]
+    },
+    {
+      "id": "REQ-16",
+      "text": "Update backend data model in backend/main.mo to support employee registry with fields: employee_id (Text), name (Text), email (Text), phone (Text), department (Text), designation (Text), date_of_joining (Text for DD-MM-YYYY format), salary (Nat), location (Text), status (Text for Active/Inactive). Replace or extend existing CitizenRecord type to accommodate employee data structure.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "now create a same website with this dataset"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend data model supports all employee fields from the uploaded dataset",
+        "Type definitions allow for employee_id, name, email, phone, department, designation, date_of_joining, salary, location, and status",
+        "CSV import logic can parse and store employee records"
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "text": "Update transaction processing interface in frontend/src/components/TransactionForm.tsx to work with employee records instead of citizen records. Replace Citizen_ID input with employee_id input, update scheme selection to reflect employee-relevant schemes or benefits (e.g., Salary Advance, Medical Reimbursement, Travel Allowance), and adjust validation logic to check employee eligibility based on department, designation, status, and other employee-specific criteria.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "now create a same website with this dataset"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Form accepts employee_id instead of Citizen_ID",
+        "Scheme selection dropdown includes employee-relevant benefit types",
+        "Validation displays results based on employee record attributes",
+        "Form submission processes employee data correctly"
+      ]
+    },
+    {
+      "id": "REQ-18",
+      "text": "Update Gate 1: Eligibility Gate validation logic to check that employee_id exists in employee registry, status equals Active, department and designation match eligibility criteria for requested benefit scheme, and salary falls within appropriate range for the benefit type.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "now create a same website with this dataset"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Validation checks employee_id existence in registry",
+        "Status must be Active for approval",
+        "Department and designation are validated against benefit eligibility rules",
+        "Salary range is checked for benefit type appropriateness",
+        "Clear rejection reasons are provided when validation fails"
+      ]
+    },
+    {
+      "id": "REQ-19",
+      "text": "Update transaction history display in frontend/src/components/TransactionHistory.tsx to show employee-specific transaction details including employee_id, employee name, department, designation, benefit type, amount, approval/rejection status, and timestamp.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "now create a same website with this dataset"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Transaction history displays employee_id instead of Citizen_ID",
+        "Employee name, department, and designation are visible in transaction records",
+        "Benefit type is clearly displayed for each transaction",
+        "Status badges show approval/rejection with appropriate styling",
+        "Timestamps are formatted consistently"
+      ]
+    },
+    {
+      "id": "REQ-20",
+      "text": "Update application branding and labels throughout the UI to reflect employee benefit processing instead of citizen benefit processing. Change 'Jan-Dhan Gateway' header to 'Employee Benefits Gateway', update form labels to use employee terminology, and adjust all user-facing text to reflect the employee benefits context.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-5"
+        ],
+        "quotes": [
+          "now create a same website with this dataset"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Application header displays 'Employee Benefits Gateway'",
+        "Form labels use employee-specific terminology",
+        "All user-facing text reflects employee benefits context",
+        "Help text and error messages reference employees instead of citizens",
+        "Footer and metadata reflect updated application purpose"
       ]
     }
   ],
   "constraints": [
-    "Do not change the CSV file location or name (frontend/public/assets/jan_dhan_registry_2000.csv)",
-    "Do not modify the existing schema structure or column names",
-    "Maintain the same data generation patterns as the original 2000-record dataset"
+    "Maintain existing three-gate validation architecture (eligibility, budget, frequency)",
+    "Preserve admin dashboard kill-switch functionality",
+    "Keep immutable hash-linked ledger implementation",
+    "Do not modify Internet Identity authentication hooks",
+    "Do not change Shadcn UI component sources"
   ],
   "nonGoals": [
-    "Modifying the backend data model or import logic",
-    "Changing the UI components that reference or display the CSV data",
-    "Altering validation rules or processing logic that uses the dataset"
+    "Adding real-time employee synchronization with external HR systems",
+    "Implementing advanced payroll calculations",
+    "Adding multi-tenancy for different organizations",
+    "Building mobile app versions"
   ],
   "imageRequirements": {
     "required": [],

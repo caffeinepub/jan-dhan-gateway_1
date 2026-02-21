@@ -10,9 +10,44 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
-export type CitizenID = string;
+export interface BenefitScheme {
+  'name' : string,
+  'salaryRangeMax' : bigint,
+  'salaryRangeMin' : bigint,
+  'eligibilityDepartment' : string,
+  'eligibilityDesignation' : string,
+  'benefitType' : string,
+}
+export interface EmployeeRecord {
+  'status' : string,
+  'salary' : bigint,
+  'name' : string,
+  'designation' : string,
+  'date_of_joining' : string,
+  'email' : string,
+  'phone' : string,
+  'department' : string,
+  'location' : string,
+  'employee_id' : string,
+}
+export interface ValidationRequest {
+  'benefitSchemeName' : string,
+  'employeeId' : string,
+  'requestedAmount' : bigint,
+  'timestamp' : bigint,
+}
+export interface ValidationResponse {
+  'isEligible' : boolean,
+  'message' : string,
+  'approvedAmount' : bigint,
+  'reason' : [] | [string],
+}
 export interface _SERVICE {
-  'requestMoney' : ActorMethod<[CitizenID], undefined>,
+  'addBenefitScheme' : ActorMethod<[BenefitScheme], undefined>,
+  'addEmployee' : ActorMethod<[EmployeeRecord], undefined>,
+  'getBenefitScheme' : ActorMethod<[string], [] | [BenefitScheme]>,
+  'getEmployee' : ActorMethod<[string], [] | [EmployeeRecord]>,
+  'validateEligibility' : ActorMethod<[ValidationRequest], ValidationResponse>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

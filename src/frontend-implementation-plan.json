@@ -1,22 +1,92 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Reduce CSV dataset from 2000 to 500 records",
+  "title": "Employee Benefits Gateway Frontend Migration",
   "requirements": [
     {
-      "id": "REQ-14",
-      "summary": "Regenerate the CSV dataset file with approximately 500 records instead of 2000, maintaining the existing schema and data variety",
+      "id": "REQ-15",
+      "summary": "Generate employee dataset CSV file with 500 records including all required employee fields",
       "acceptanceCriteria": [
-        "CSV file contains approximately 500 records (acceptable range: 480-520 records)",
-        "All existing schema columns are preserved with correct data types",
-        "Data variety is maintained across all categorical fields",
-        "File remains downloadable from the same location in the application"
+        "CSV file contains approximately 500 employee records",
+        "All columns from uploaded dataset are preserved: employee_id, name, email, phone, department, designation, date_of_joining, salary, location, status",
+        "Data includes variety of departments, designations, locations, and status values",
+        "Salary values range between 25000 and 150000",
+        "Date of joining values span from 2018 to 2024",
+        "File is accessible for download at frontend/public/assets/jan_dhan_registry_2000.csv"
       ],
       "file_operations": [
         {
           "path": "frontend/public/assets/jan_dhan_registry_2000.csv",
+          "operation": "create",
+          "description": "Generate CSV file containing approximately 500 employee records with columns: employee_id, name, email, phone, department, designation, date_of_joining (DD-MM-YYYY format), salary, location, status. Include variety across departments (HR, Finance, IT, Operations, Marketing, Sales), designations (Manager, Senior Executive, Executive, Team Lead), locations (Mumbai, Delhi, Bangalore, Chennai, Hyderabad, Pune), Active/Inactive status mix, salaries ranging 25000-150000, and joining dates between 2018-2024."
+        }
+      ]
+    },
+    {
+      "id": "REQ-17",
+      "summary": "Update transaction form to process employee records with employee_id and benefit schemes",
+      "acceptanceCriteria": [
+        "Form accepts employee_id instead of Citizen_ID",
+        "Scheme selection dropdown includes employee-relevant benefit types",
+        "Validation displays results based on employee record attributes",
+        "Form submission processes employee data correctly"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/TransactionForm.tsx",
           "operation": "modify",
-          "description": "Regenerate the CSV dataset file with approximately 500 records instead of 2000. Maintain the existing schema with columns: Citizen_ID (12-digit text), Income_Tier, Scheme_Eligibility, Scheme_Amount (number), Last_Claim_Date (DD-MM-YYYY format), Region_Code, Account_Status (Active/Inactive), Aadhaar_Linked (TRUE/FALSE), Claim_Count (number). Preserve data variety including different income tiers (Low, Middle, High), multiple scheme types (Pension, Health, Education), various region codes, mix of Active/Inactive accounts, TRUE/FALSE Aadhaar linkage status, and claim counts ranging from 0 to 5. Generate realistic 12-digit Citizen_IDs, randomize dates in DD-MM-YYYY format, and ensure scheme amounts align with scheme types. The file must remain at the same location and name to maintain compatibility with existing application components that reference or import this dataset."
+          "description": "Replace Citizen_ID input field with employee_id input field. Update scheme selection dropdown to include employee-relevant benefits (Salary Advance, Medical Reimbursement, Travel Allowance). Integrate with backend validateEligibility method using ValidationRequest interface with employeeId field. Update validation logic to check employee eligibility based on department, designation, status from EmployeeRecord. Maintain three-gate validation display architecture showing eligibility, budget, and frequency gates with appropriate employee-specific messaging."
+        }
+      ]
+    },
+    {
+      "id": "REQ-19",
+      "summary": "Update transaction history to display employee-specific transaction details",
+      "acceptanceCriteria": [
+        "Transaction history displays employee_id instead of Citizen_ID",
+        "Employee name, department, and designation are visible in transaction records",
+        "Benefit type is clearly displayed for each transaction",
+        "Status badges show approval/rejection with appropriate styling",
+        "Timestamps are formatted consistently"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/TransactionHistory.tsx",
+          "operation": "modify",
+          "description": "Update transaction history display to show employee_id instead of Citizen_ID, include employee name, department, and designation fields in each transaction record. Update benefit scheme labels to reflect employee benefit types. Ensure status badges display approval/rejection with existing styling. Maintain timestamp formatting and scrollable list layout. Integrate with backend transaction history query returning employee-specific data."
+        }
+      ]
+    },
+    {
+      "id": "REQ-20",
+      "summary": "Rebrand application UI from Jan-Dhan Gateway to Employee Benefits Gateway",
+      "acceptanceCriteria": [
+        "Application header displays 'Employee Benefits Gateway'",
+        "Form labels use employee-specific terminology",
+        "All user-facing text reflects employee benefits context",
+        "Help text and error messages reference employees instead of citizens",
+        "Footer and metadata reflect updated application purpose"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/Layout.tsx",
+          "operation": "modify",
+          "description": "Update header branding from 'Jan-Dhan Gateway' to 'Employee Benefits Gateway'. Replace citizen-related terminology in header text with employee benefit terminology. Maintain security indicators and existing layout structure. Update footer text to reflect employee benefits processing context while preserving caffeine.ai attribution link."
+        },
+        {
+          "path": "frontend/index.html",
+          "operation": "modify",
+          "description": "Update page title from 'Jan-Dhan Gateway' to 'Employee Benefits Gateway'. Update meta description to reflect employee benefit processing application purpose."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Update tab labels and any user-facing text from citizen/Jan-Dhan terminology to employee benefits terminology. Ensure transaction processing tab reflects employee benefit context. Maintain existing tabbed interface structure switching between transaction processing and admin dashboard."
+        },
+        {
+          "path": "frontend/src/components/AdminDashboard.tsx",
+          "operation": "modify",
+          "description": "Update admin dashboard labels, headers, and descriptive text to reflect employee benefits processing context instead of citizen benefits. Replace references to 'citizens' or 'Jan-Dhan' with 'employees' or 'employee benefits'. Maintain existing kill-switch functionality, budget monitoring, transaction count display, and security feature indicators."
         }
       ]
     }

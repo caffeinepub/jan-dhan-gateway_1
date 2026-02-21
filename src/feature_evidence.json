@@ -2,8 +2,8 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-regenerate-the-csv-dataset-file-at-frontend-public-assets-jan-dhan-registry-2000-csv-with-approximately-500-records-instead-of-2000-maintaining-the-existing-schema-with-columns-citizen-id-12-digit-text-income-tier-scheme-eligibility-scheme-amount-number-last-claim-date-dd-mm-yyyy-format-region-code-account-status-active-inactive-aadhaar-linked-true-false-claim-count-number-preserve-data-variety-including-different-income-tiers-multiple-scheme-types-pension-health-education-various-region-codes-mix-of-active-inactive-accounts-true-false-aadhaar-linkage-status-and-claim-counts-ranging-from-0-to-5",
-      "featureTitle": "Regenerate the CSV dataset file at frontend/public/assets/jan_dhan_registry_2000.csv with approximately 500 records instead of 2000, maintaining the existing schema with columns: Citizen_ID (12-digit text), Income_Tier, Scheme_Eligibility, Scheme_Amount (number), Last_Claim_Date (DD-MM-YYYY format), Region_Code, Account_Status (Active/Inactive), Aadhaar_Linked (TRUE/FALSE), Claim_Count (number). Preserve data variety including different income tiers, multiple scheme types (Pension, Health, Education), various region codes, mix of Active/Inactive accounts, TRUE/FALSE Aadhaar linkage status, and claim counts ranging from 0 to 5.",
+      "featureId": "feature-generate-a-new-csv-dataset-file-at-frontend-public-assets-jan-dhan-registry-2000-csv-containing-approximately-500-employee-records-with-columns-employee-id-text-name-text-email-text-phone-text-department-text-designation-text-date-of-joining-dd-mm-yyyy-format-salary-number-location-text-status-active-inactive-include-variety-across-departments-hr-finance-it-operations-marketing-sales-multiple-designations-manager-senior-executive-executive-team-lead-various-locations-mumbai-delhi-bangalore-chennai-hyderabad-pune-mix-of-active-inactive-status-salaries-ranging-from-25000-to-150000-and-joining-dates-between-2018-and-2024",
+      "featureTitle": "Generate a new CSV dataset file at frontend/public/assets/jan_dhan_registry_2000.csv containing approximately 500 employee records with columns: employee_id (text), name (text), email (text), phone (text), department (text), designation (text), date_of_joining (DD-MM-YYYY format), salary (number), location (text), status (Active/Inactive). Include variety across departments (HR, Finance, IT, Operations, Marketing, Sales), multiple designations (Manager, Senior Executive, Executive, Team Lead), various locations (Mumbai, Delhi, Bangalore, Chennai, Hyderabad, Pune), mix of Active/Inactive status, salaries ranging from 25000 to 150000, and joining dates between 2018 and 2024.",
       "files": [],
       "components": [
         "core-infrastructure@1.0.2",
@@ -13,7 +13,64 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-14"
+        "REQ-15"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-transaction-processing-interface-in-frontend-src-components-transactionform-tsx-to-work-with-employee-records-instead-of-citizen-records-replace-citizen-id-input-with-employee-id-input-update-scheme-selection-to-reflect-employee-relevant-schemes-or-benefits-e-g-salary-advance-medical-reimbursement-travel-allowance-and-adjust-validation-logic-to-check-employee-eligibility-based-on-department-designation-status-and-other-employee-specific-criteria",
+      "featureTitle": "Update transaction processing interface in frontend/src/components/TransactionForm.tsx to work with employee records instead of citizen records. Replace Citizen_ID input with employee_id input, update scheme selection to reflect employee-relevant schemes or benefits (e.g., Salary Advance, Medical Reimbursement, Travel Allowance), and adjust validation logic to check employee eligibility based on department, designation, status, and other employee-specific criteria.",
+      "files": [
+        "frontend/src/components/TransactionForm.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-17"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-transaction-history-display-in-frontend-src-components-transactionhistory-tsx-to-show-employee-specific-transaction-details-including-employee-id-employee-name-department-designation-benefit-type-amount-approval-rejection-status-and-timestamp",
+      "featureTitle": "Update transaction history display in frontend/src/components/TransactionHistory.tsx to show employee-specific transaction details including employee_id, employee name, department, designation, benefit type, amount, approval/rejection status, and timestamp.",
+      "files": [
+        "frontend/src/components/TransactionHistory.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-19"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-application-branding-and-labels-throughout-the-ui-to-reflect-employee-benefit-processing-instead-of-citizen-benefit-processing-change-jan-dhan-gateway-header-to-employee-benefits-gateway-update-form-labels-to-use-employee-terminology-and-adjust-all-user-facing-text-to-reflect-the-employee-benefits-context",
+      "featureTitle": "Update application branding and labels throughout the UI to reflect employee benefit processing instead of citizen benefit processing. Change 'Jan-Dhan Gateway' header to 'Employee Benefits Gateway', update form labels to use employee terminology, and adjust all user-facing text to reflect the employee benefits context.",
+      "files": [
+        "frontend/index.html",
+        "frontend/src/App.tsx",
+        "frontend/src/components/AdminDashboard.tsx",
+        "frontend/src/components/Layout.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-20"
       ],
       "confidence": "high"
     }

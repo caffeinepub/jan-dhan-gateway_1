@@ -6,8 +6,11 @@ import { History, CheckCircle2, XCircle, Clock } from 'lucide-react';
 type Transaction = {
   id: string;
   timestamp: string;
-  citizenId: string;
-  scheme: string;
+  employeeId: string;
+  employeeName: string;
+  department: string;
+  designation: string;
+  benefitType: string;
   amount: number;
   status: 'approved' | 'rejected';
   reason?: string;
@@ -19,28 +22,36 @@ export function TransactionHistory() {
     {
       id: '1',
       timestamp: '2026-02-21 14:32:15',
-      citizenId: '322651194174',
-      scheme: 'Pension',
-      amount: 2000,
-      status: 'rejected',
-      reason: 'Frequency gate violation',
+      employeeId: 'EMP001',
+      employeeName: 'Rajesh Kumar',
+      department: 'IT',
+      designation: 'Manager',
+      benefitType: 'Salary Advance',
+      amount: 30000,
+      status: 'approved',
     },
     {
       id: '2',
       timestamp: '2026-02-21 14:28:42',
-      citizenId: '471464053117',
-      scheme: 'Health',
-      amount: 5000,
+      employeeId: 'EMP002',
+      employeeName: 'Priya Sharma',
+      department: 'HR',
+      designation: 'Senior Executive',
+      benefitType: 'Medical Reimbursement',
+      amount: 15000,
       status: 'approved',
     },
     {
       id: '3',
       timestamp: '2026-02-21 14:15:08',
-      citizenId: '247760979123',
-      scheme: 'Education',
-      amount: 3000,
+      employeeId: 'EMP201',
+      employeeName: 'Radhika Jain',
+      department: 'Finance',
+      designation: 'Team Lead',
+      benefitType: 'Travel Allowance',
+      amount: 8000,
       status: 'rejected',
-      reason: 'Claim count exceeded (4 > 3)',
+      reason: 'Employee status is not Active',
     },
   ];
 
@@ -51,7 +62,7 @@ export function TransactionHistory() {
           <History className="h-5 w-5 text-primary" />
           Transaction History
         </CardTitle>
-        <CardDescription>Recent benefit claim processing results</CardDescription>
+        <CardDescription>Recent employee benefit processing results</CardDescription>
       </CardHeader>
       <CardContent>
         {transactions.length === 0 ? (
@@ -59,7 +70,7 @@ export function TransactionHistory() {
             <Clock className="h-12 w-12 text-muted-foreground/50 mb-3" />
             <p className="text-sm text-muted-foreground">No transactions processed yet</p>
             <p className="text-xs text-muted-foreground mt-1">
-              Submit a claim to see validation results here
+              Submit a benefit request to see validation results here
             </p>
           </div>
         ) : (
@@ -91,12 +102,24 @@ export function TransactionHistory() {
 
                   <div className="space-y-1 ml-7">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Citizen ID:</span>
-                      <span className="text-sm font-mono text-muted-foreground">{tx.citizenId}</span>
+                      <span className="text-sm font-medium">Employee ID:</span>
+                      <span className="text-sm font-mono text-muted-foreground">{tx.employeeId}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Scheme:</span>
-                      <span className="text-sm text-muted-foreground">{tx.scheme}</span>
+                      <span className="text-sm font-medium">Name:</span>
+                      <span className="text-sm text-muted-foreground">{tx.employeeName}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium">Department:</span>
+                      <span className="text-sm text-muted-foreground">{tx.department}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium">Designation:</span>
+                      <span className="text-sm text-muted-foreground">{tx.designation}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium">Benefit Type:</span>
+                      <span className="text-sm text-muted-foreground">{tx.benefitType}</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium">Amount:</span>
